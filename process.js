@@ -1,0 +1,1 @@
+alert("Tải extention thành công");
