@@ -2,14 +2,17 @@ const urlApp = window.location.href;
 
 window.addEventListener('load', () => {
     alert("Tải xong Dom");
+    if (urlApp.includes("tiepnhanbenhnhan") || urlApp.includes("tiepnhanBANT") || urlApp.includes("tiepnhannhapvien")) {
+        var btnKiemTraThongTin = document.createElement('button');
+        btnKiemTraThongTin.innerHTML = '<i class="fa fa-check-square-o" aria-hidden="true"></i> Kiểm tra thẻ BHYT';
+        btnKiemTraThongTin.className = "btn btn-sm btn-primary";
+        btnKiemTraThongTin.id = "btnKiemTraTheBHYT";
+        btnKiemTraThongTin.type = "button";
+        btnKiemTraThongTin.click = "myFunction";
+        document.getElementById("baohiem5nam_label").parentElement.appendChild(btnKiemTraThongTin);
+    }
 });
-//debugger;
-//if (urlApp.includes("tiepnhanbenhnhan") || urlApp.includes("tiepnhanBANT") || urlApp.includes("tiepnhannhapvien")) {
-//    var btnExcelImport = document.createElement("button");
-//    btnExcelImport.innerHTML = '<i class="fa fa-check-square-o" aria-hidden="true"></i> Kiểm tra thẻ BHYT';
-//    btnExcelImport.className = "btn btn-sm btn-primary";
-//    btnExcelImport.id = "btnKiemTraTheBHYT";
-//    btnExcelImport.type = "button";
-//    btnExcelImport.click = "myFunction";
-//    document.getElementById("baohiem5nam_label").parentElement.appendChild(btnExcelImport);
-//}
+
+document.getElementById("btnKiemTraThongTin").addEventListener("click", (e) => {
+     alert("Đã bật kiểm tra thẻ BHYT");
+ });
