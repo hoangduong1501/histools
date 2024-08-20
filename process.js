@@ -6,7 +6,7 @@ window.addEventListener('load', () => {
         var btnKiemTraThongTin = document.createElement('button');
         btnKiemTraThongTin.innerHTML = '<i class="fa fa-check-square-o" aria-hidden="true"></i> Kiểm tra thẻ BHYT';
         btnKiemTraThongTin.className = "btn btn-sm btn-primary";
-        btnKiemTraThongTin.id = "btnKiemTraTheBHYT";
+        btnKiemTraThongTin.id = "btnKiemTraThongTin";
         btnKiemTraThongTin.type = "button";
         btnKiemTraThongTin.click = "myFunction";
         document.getElementById("baohiem5nam_label").parentElement.appendChild(btnKiemTraThongTin);
