@@ -11,8 +11,9 @@ window.addEventListener('load', () => {
         btnKiemTraThongTin.click = "myFunction";
         document.getElementById("baohiem5nam_label").parentElement.appendChild(btnKiemTraThongTin);
     }
+
+    document.getElementById("btnKiemTraThongTin").addEventListener("click", (e) => {
+        alert("Đã bật kiểm tra thẻ BHYT");
+    });
 });
 
-document.getElementById("btnKiemTraThongTin").addEventListener("click", (e) => {
-     alert("Đã bật kiểm tra thẻ BHYT");
- });
