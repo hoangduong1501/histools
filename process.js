@@ -3,27 +3,25 @@ const urlApp = window.location.href;
 window.addEventListener('load', () => {
   if (urlApp.includes("tiepnhanbenhnhan") || urlApp.includes("tiepnhanBANT") || urlApp.includes("tiepnhannhapvien")) {
     const maNhanVienHis = sessionStorage.getItem("userId");
-
     fetch(window.location.origin + '/web_his/danhsach_canbo_nhanvien_sudungapiBHXH')
       .then(response => {
         if (response.ok) {
-          debugger;
-          var lstNhanVien = response.json(); // Parse the response data as JSON
-          return;
+          return response.json(); // Parse the response data as JSON
         } else {
           throw new Error('API request failed');
         }
       })
       .then(data => {
-        // Process the response data here
-        console.log(data); // Example: Logging the data to the console
+        debugger;
+        
+        console.log(data);
       })
       .catch(error => {
         // Handle any errors here
         console.error(error); // Example: Logging the error to the console
       });
 
-      
+
 
     var btnKiemTraThongTin = document.createElement('button');
     btnKiemTraThongTin.innerHTML = '<i class="fa fa-check-square-o" aria-hidden="true"></i> Kiểm tra thẻ BHYT';
