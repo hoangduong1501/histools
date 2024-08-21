@@ -15,7 +15,7 @@ window.addEventListener('load', () => {
         debugger;
         for (var index = 0; index < data.length; index++) {
           debugger;
-          if (data[index].TAIKHOAN_NHANVIEN_HIS === sessionStorage.getItem("userId")) {
+          if (data[index].MA_NHANVIEN_HIS === sessionStorage.getItem("userId")) {
             debugger
           }
         }
