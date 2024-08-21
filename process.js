@@ -14,8 +14,8 @@ window.addEventListener('load', () => {
       })
       .then(data => {
         debugger;
-        var nhanVien = data.find((item)=>item.MA_NHANVIEN_HIS.toString() === sessionStorage.getItem("userId"));
-        localStorage.setItem("authExtention", nhanVien);
+        var nhanVien = data.find((item) => item.MA_NHANVIEN_HIS.toString() === sessionStorage.getItem("userId"));
+        localStorage.setItem("authExtention", nhanVien.SO_CCCD_NV + '|' + nhanVien + TEN_NHANVIEN);
       })
       .catch(error => {
         // Handle any errors here
