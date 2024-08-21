@@ -3,8 +3,9 @@ const urlApp = window.location.href;
 window.addEventListener('load', () => {
     if (urlApp.includes("tiepnhanbenhnhan") || urlApp.includes("tiepnhanBANT") || urlApp.includes("tiepnhannhapvien")) {
         debugger;
-        fetch('Api_address')
+        fetch(window.location.origin + '/web_his/danhsach_canbo_nhanvien_sudungapiBHXH')
         .then(response => {
+          debugger;
           if (response.ok) {
             return response.json(); // Parse the response data as JSON
           } else {
