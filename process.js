@@ -2,7 +2,7 @@ const urlApp = window.location.href;
 
 window.addEventListener('load', () => {
   if (urlApp.includes("tiepnhanbenhnhan") || urlApp.includes("tiepnhanBANT") || urlApp.includes("tiepnhannhapvien")) {
-    const maNhanVienHis = sessionStorage.getItem("userId");
+    
     fetch(window.location.origin + '/web_his/danhsach_canbo_nhanvien_sudungapiBHXH')
       .then(response => {
         if (response.ok) {
@@ -13,7 +13,7 @@ window.addEventListener('load', () => {
       })
       .then(data => {
         debugger;
-        
+        var nhanVien = data.find((item)=>item.taikhoan_nhanvien_his === sessionStorage.getItem("userId"));
         console.log(data);
       })
       .catch(error => {
