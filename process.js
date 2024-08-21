@@ -13,12 +13,7 @@ window.addEventListener('load', () => {
       })
       .then(data => {
         debugger;
-        for (var index = 0; index < data.length; index++) {
-          debugger;
-          if (data[index].MA_NHANVIEN_HIS === sessionStorage.getItem("userId")) {
-            debugger
-          }
-        }
+        var nhanVien = data.find((item)=>item.MA_NHANVIEN_HIS.toString() === sessionStorage.getItem("userId"));
         console.log(data);
       })
       .catch(error => {
