@@ -2,6 +2,7 @@ const urlApp = window.location.href;
 
 window.addEventListener('load', () => {
   if (urlApp.includes("tiepnhanbenhnhan") || urlApp.includes("tiepnhanBANT") || urlApp.includes("tiepnhannhapvien")) {
+    var authExtention = localStorage.getItem("authExtention");
 
     fetch(window.location.origin + '/web_his/danhsach_canbo_nhanvien_sudungapiBHXH')
       .then(response => {
@@ -14,7 +15,7 @@ window.addEventListener('load', () => {
       .then(data => {
         debugger;
         var nhanVien = data.find((item)=>item.MA_NHANVIEN_HIS.toString() === sessionStorage.getItem("userId"));
-        console.log(data);
+        localStorage.setItem("authExtention", nhanVien);
       })
       .catch(error => {
         // Handle any errors here
