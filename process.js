@@ -13,7 +13,12 @@ window.addEventListener('load', () => {
       })
       .then(data => {
         debugger;
-        var nhanVien = data.find((item)=>item.MA_NHANVIEN_HIS === sessionStorage.getItem("userId"));
+        for (var index = 0; index < data.length; index++) {
+          debugger;
+          if (data[index].TAIKHOAN_NHANVIEN_HIS === sessionStorage.getItem("userId")) {
+            debugger
+          }
+        }
         console.log(data);
       })
       .catch(error => {
