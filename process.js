@@ -7,26 +7,6 @@ window.addEventListener('load', () => {
 
       var quyenTraCuu = layThongTinNguoiTraCuu();
 
-    //   fetch('https://egw.baohiemxahoi.gov.vn/api/token/take', {
-    //     method: "POST",
-    //     body: JSON.stringify({ username: dvtt + "_BV" }),
-    //   })
-    //     .then(response => {
-    //       if (response.ok) {
-    //         return response.json();
-    //       } else {
-    //         throw new Error('API request failed');
-    //       }
-    //     })
-    //     .then(data => {
-    //       var nhanVien = data.find((item) => item.MA_NHANVIEN_HIS.toString() === sessionStorage.getItem("userId"));
-    //       localStorage.setItem("authExtention", btoa(nhanVien.SO_CCCD_NV + '|' + nhanVien.TEN_NHANVIEN));
-    //     })
-    //     .catch(error => {
-    //       console.error(error);
-    //     });
-    // }
-
 
 
 
@@ -43,7 +23,7 @@ window.addEventListener('load', () => {
   document.getElementById("btnKiemTraThongTin").addEventListener("click", (e) => {
     alert("Đã bật kiểm tra thẻ BHYT");
   });
-});
+}});
 
 const layThongTinNguoiTraCuu = () => {
   fetch(window.location.origin + '/web_his/danhsach_canbo_nhanvien_sudungapiBHXH')
