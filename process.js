@@ -1,29 +1,34 @@
 const urlApp = window.location.href;
 
-window.addEventListener('load', () => {
+window.addEventListener('load', async () => {
   if (urlApp.includes("tiepnhanbenhnhan") || urlApp.includes("tiepnhanBANT") || urlApp.includes("tiepnhannhapvien")) {
-    if (localStorage.getItem("authExtention") === null || atob(ocalStorage.getItem("authExtention")).split('|')[0] !== sessionStorage.getItem("userId")) {
+    if (localStorage.getItem("authExtention") === null || fromBinary(ocalStorage.getItem("authExtention")).split('|')[0] !== sessionStorage.getItem("userId")) {
       localStorage.removeItem("authExtention");
 
-      var quyenTraCuu = layThongTinNguoiTraCuu();
+      var quyenTraCuu = await layThongTinNguoiTraCuu();
+      if (quyenTraCuu) {
+        debugger
+      } else {
+        debugger;
+      }
 
 
 
 
+      var btnKiemTraThongTin = document.createElement('button');
+      btnKiemTraThongTin.innerHTML = '<i class="fa fa-check-square-o" aria-hidden="true"></i> Kiểm tra thẻ BHYT';
+      btnKiemTraThongTin.className = "btn btn-sm btn-primary";
+      btnKiemTraThongTin.id = "btnKiemTraThongTin";
+      btnKiemTraThongTin.type = "button";
+      btnKiemTraThongTin.click = "myFunction";
+      document.getElementById("baohiem5nam_label").parentElement.appendChild(btnKiemTraThongTin);
+    }
 
-    var btnKiemTraThongTin = document.createElement('button');
-    btnKiemTraThongTin.innerHTML = '<i class="fa fa-check-square-o" aria-hidden="true"></i> Kiểm tra thẻ BHYT';
-    btnKiemTraThongTin.className = "btn btn-sm btn-primary";
-    btnKiemTraThongTin.id = "btnKiemTraThongTin";
-    btnKiemTraThongTin.type = "button";
-    btnKiemTraThongTin.click = "myFunction";
-    document.getElementById("baohiem5nam_label").parentElement.appendChild(btnKiemTraThongTin);
+    document.getElementById("btnKiemTraThongTin").addEventListener("click", (e) => {
+      alert("Đã bật kiểm tra thẻ BHYT");
+    });
   }
-
-  document.getElementById("btnKiemTraThongTin").addEventListener("click", (e) => {
-    alert("Đã bật kiểm tra thẻ BHYT");
-  });
-}});
+});
 
 const layThongTinNguoiTraCuu = () => {
   fetch(window.location.origin + '/web_his/danhsach_canbo_nhanvien_sudungapiBHXH')
@@ -40,9 +45,7 @@ const layThongTinNguoiTraCuu = () => {
         alert('Tài khoản này không có quyền tra cứu');
         return false;
       } else {
-        // localStorage.setItem("authExtention", btoa(nhanVien.SO_CCCD_NV + '|' + nhanVien.TEN_NHANVIEN));
         localStorage.setItem("authExtention", toBinary(nhanVien.SO_CCCD_NV + '|' + nhanVien.TEN_NHANVIEN));
-        debugger;
         return true;
       }
     })
