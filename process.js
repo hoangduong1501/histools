@@ -2,7 +2,7 @@ const urlApp = window.location.href;
 
 window.addEventListener('load', async () => {
   if (urlApp.includes("tiepnhanbenhnhan") || urlApp.includes("tiepnhanBANT") || urlApp.includes("tiepnhannhapvien")) {
-    if (localStorage.getItem("authExtention") === null || fromBinary(ocalStorage.getItem("authExtention")).split('|')[0] !== sessionStorage.getItem("userId")) {
+    if (localStorage.getItem("authExtention") === null || fromBinary(localStorage.getItem("authExtention")).split('|')[0] !== sessionStorage.getItem("userId")) {
       localStorage.removeItem("authExtention");
 
       var quyenTraCuu = await layThongTinNguoiTraCuu();
