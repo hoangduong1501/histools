@@ -41,7 +41,7 @@ const layThongTinNguoiTraCuu = () => {
         return false;
       } else {
         // localStorage.setItem("authExtention", btoa(nhanVien.SO_CCCD_NV + '|' + nhanVien.TEN_NHANVIEN));
-        localStorage.setItem("authExtention", fromBinary(nhanVien.SO_CCCD_NV + '|' + nhanVien.TEN_NHANVIEN));
+        localStorage.setItem("authExtention", toBinary(nhanVien.SO_CCCD_NV + '|' + nhanVien.TEN_NHANVIEN));
         debugger;
         return true;
       }
