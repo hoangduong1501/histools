@@ -2,25 +2,32 @@ const urlApp = window.location.href;
 
 window.addEventListener('load', () => {
   if (urlApp.includes("tiepnhanbenhnhan") || urlApp.includes("tiepnhanBANT") || urlApp.includes("tiepnhannhapvien")) {
-    var authExtention = localStorage.getItem("authExtention");
+    if (localStorage.getItem("authExtention") === null || atob(ocalStorage.getItem("authExtention")).split('|')[0] !== sessionStorage.getItem("userId")) {
+      localStorage.removeItem("authExtention");
 
-    fetch(window.location.origin + '/web_his/danhsach_canbo_nhanvien_sudungapiBHXH')
-      .then(response => {
-        if (response.ok) {
-          return response.json(); // Parse the response data as JSON
-        } else {
-          throw new Error('API request failed');
-        }
+      var quyenTraCuu = layThongTinNguoiTraCuu();
+
+      fetch('https://egw.baohiemxahoi.gov.vn/api/token/take', {
+        method: "POST",
+        body: JSON.stringify({ username: dvtt + "_BV" }),
       })
-      .then(data => {
-        debugger;
-        var nhanVien = data.find((item) => item.MA_NHANVIEN_HIS.toString() === sessionStorage.getItem("userId"));
-        localStorage.setItem("authExtention", nhanVien.SO_CCCD_NV + '|' + nhanVien.TEN_NHANVIEN);
-      })
-      .catch(error => {
-        // Handle any errors here
-        console.error(error); // Example: Logging the error to the console
-      });
+        .then(response => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            throw new Error('API request failed');
+          }
+        })
+        .then(data => {
+          var nhanVien = data.find((item) => item.MA_NHANVIEN_HIS.toString() === sessionStorage.getItem("userId"));
+          localStorage.setItem("authExtention", btoa(nhanVien.SO_CCCD_NV + '|' + nhanVien.TEN_NHANVIEN));
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }
+
+
 
 
 
@@ -37,4 +44,28 @@ window.addEventListener('load', () => {
     alert("Đã bật kiểm tra thẻ BHYT");
   });
 });
+
+const layThongTinNguoiTraCuu = () => {
+  fetch(window.location.origin + '/web_his/danhsach_canbo_nhanvien_sudungapiBHXH')
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error('API request failed');
+      }
+    })
+    .then(data => {
+      var nhanVien = data.find((item) => item.MA_NHANVIEN_HIS.toString() === sessionStorage.getItem("userId"));
+      if (nhanVien === null) {
+        alert('Tài khoản này không có quyền tra cứu');
+        return false;
+      } else {
+        localStorage.setItem("authExtention", btoa(nhanVien.SO_CCCD_NV + '|' + nhanVien.TEN_NHANVIEN));
+        return true;
+      }
+    })
+    .catch(error => {
+      console.error(error);
+    });
+};
 
