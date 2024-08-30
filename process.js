@@ -41,7 +41,7 @@ const layThongTinNguoiTraCuu = () => {
     })
     .then(data => {
       var nhanVien = data.find((item) => item.MA_NHANVIEN_HIS.toString() === sessionStorage.getItem("userId"));
-      if (nhanVien === null) {
+      if (nhanVien === undefined) {
         alert('Tài khoản này không có quyền tra cứu');
         return false;
       } else {
