@@ -105,13 +105,16 @@ window.addEventListener('load', async () => {
     // #endregion
 
     //Kiểm tra thông tin nhân viên có trong danh sách đăng ký tra cứu thông tin thẻ BHYT
-    var strPhien_DangNhap = "ʘɷʘ" + vPhien_DangNhap.access_token + "ʘɷʘ" + vPhien_DangNhap.id_token + "ʘɷʘ" + vPhien_DangNhap.token_type + "ʘɷʘ" + vPhien_DangNhap.username + "ʘɷʘ" + vPhien_DangNhap.expires_in + "ʘɷʘ";
-    var binPhien_DangNhap = toBinary(strPhien_DangNhap);
-    localStorage.setItem("his_search_session", binPhien_DangNhap);
-    const vPhienLamViec = localStorage.getItem("authExtention");
-    // if (vPhienLamViec !== undefined) {
-    //   localStorage.removeItem("authExtention");
-    // }
+    const vPhienLamViec = fromBinary(localStorage.getItem("his_search_session"));
+    debugger;
+    if (localStorage.getItem("his_search_session") !== undefined) {
+      localStorage.removeItem("authExtention");
+    }
+
+    // var strPhien_DangNhap = "ʘɷʘ" + vPhien_DangNhap.access_token + "ʘɷʘ" + vPhien_DangNhap.id_token + "ʘɷʘ" + vPhien_DangNhap.token_type + "ʘɷʘ" + vPhien_DangNhap.username + "ʘɷʘ" + vPhien_DangNhap.expires_in + "ʘɷʘ";
+    // var binPhien_DangNhap = toBinary(strPhien_DangNhap);
+    // localStorage.setItem("his_search_session", binPhien_DangNhap);
+    
 
     // while (vTrangThai_KetQua.ThongTin_QuyenTraCuu_BHXH.LanGoi < 3) {
     //   vTrangThai_KetQua.ThongTin_QuyenTraCuu_BHXH.TrangThai = await fetch(vLienKet_API.nhanvien_kiemtrathe)
