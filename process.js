@@ -2,6 +2,8 @@ const urlApp = window.location.href;
 
 window.addEventListener('load', async () => {
   if (urlApp.includes("tiepnhanbenhnhan") || urlApp.includes("tiepnhanBANT") || urlApp.includes("tiepnhannhapvien")) {
+    const vNhanVienHienTai = sessionStorage.getItem("userId");
+
     const vLienKet_API = {
       "laytoken_bhxh": "https://egw.baohiemxahoi.gov.vn/api/token/take",
       "kiemtra_bhyt": "https://egw.baohiemxahoi.gov.vn/api/egw/KQNhanLichSuKCB2024",
@@ -68,6 +70,17 @@ window.addEventListener('load', async () => {
       },
     };
 
+    const vPhien_DangNhap = {
+      "access_token": "VzBoOUFvYU56NkluWlhZM3h1K2JtS2JXUUloUVhoU0ErN1hYODFNQjAwQT06NzAwMDFfQlY6MTMzNjkzOTMzODg1NDU0MTQ1",
+      "id_token": "06af04d0-3ef2-4636-aeaf-1c17802d0846",
+      "token_type": "Bearer",
+      "username": "70001_BV",
+      "expires_in": "2024-08-29T08:33:08.5454145Z"
+    };
+
+    // #region Lấy thông tin tài khoản đăng nhập gdbhyt.baohiemxahoi.gov.vn
+    //Trường hợp gọi request thất bại sẽ gọi lại. Tối đa 3 lần
+    //Thông tin lấy từ api His
     while (vTrangThai_KetQua.ThongTin_DangNhap_BHXH.LanGoi < 3) {
       vTrangThai_KetQua.ThongTin_DangNhap_BHXH.TrangThai = await fetch(vLienKet_API.thongtin_dangnhap)
         .then(response => {
@@ -80,7 +93,8 @@ window.addEventListener('load', async () => {
           }
         })
         .then(data => {
-          debugger;
+          vThongTin_LayToken.Request.Body.username = vThongTin_KiemTraThe.Request.Body.username = data.THAM_SO_TAI_KHOAN;
+          vThongTin_LayToken.Request.Body.password = vThongTin_KiemTraThe.Request.Body.password = data.THAM_SO_MAT_KHAU;
           return true;
         })
         .catch(error => {
@@ -88,27 +102,37 @@ window.addEventListener('load', async () => {
           return false;
         });
     }
+    // #endregion
 
-    while (vTrangThai_KetQua.ThongTin_QuyenTraCuu_BHXH.LanGoi < 3) {
-      vTrangThai_KetQua.ThongTin_QuyenTraCuu_BHXH.TrangThai = await fetch(vLienKet_API.nhanvien_kiemtrathe)
-        .then(response => {
-          if (response.ok) {
-            vTrangThai_KetQua.ThongTin_QuyenTraCuu_BHXH.LanGoi = 3;
-            return response.json();
-          } else {
-            vTrangThai_KetQua.ThongTin_QuyenTraCuu_BHXH.LanGoi++;
-            throw new Error('API request failed');
-          }
-        })
-        .then(data => {
-          debugger;
-          return true;
-        })
-        .catch(error => {
-          console.error(error);
-          return false;
-        });
-    }
+    //Kiểm tra thông tin nhân viên có trong danh sách đăng ký tra cứu thông tin thẻ BHYT
+    var strPhien_DangNhap = "ʘɷʘ" + vPhien_DangNhap.access_token + "ʘɷʘ" + vPhien_DangNhap.id_token + "ʘɷʘ" + vPhien_DangNhap.token_type + "ʘɷʘ" + vPhien_DangNhap.username + "ʘɷʘ" + vPhien_DangNhap.expires_in + "ʘɷʘ";
+    var binPhien_DangNhap = toBinary(strPhien_DangNhap);
+    localStorage.setItem("his_search_session", binPhien_DangNhap);
+    const vPhienLamViec = localStorage.getItem("authExtention");
+    // if (vPhienLamViec !== undefined) {
+    //   localStorage.removeItem("authExtention");
+    // }
+
+    // while (vTrangThai_KetQua.ThongTin_QuyenTraCuu_BHXH.LanGoi < 3) {
+    //   vTrangThai_KetQua.ThongTin_QuyenTraCuu_BHXH.TrangThai = await fetch(vLienKet_API.nhanvien_kiemtrathe)
+    //     .then(response => {
+    //       if (response.ok) {
+    //         vTrangThai_KetQua.ThongTin_QuyenTraCuu_BHXH.LanGoi = 3;
+    //         return response.json();
+    //       } else {
+    //         vTrangThai_KetQua.ThongTin_QuyenTraCuu_BHXH.LanGoi++;
+    //         throw new Error('API request failed');
+    //       }
+    //     })
+    //     .then(data => {
+    //       debugger;
+    //       return true;
+    //     })
+    //     .catch(error => {
+    //       console.error(error);
+    //       return false;
+    //     });
+    // }
 
 
     // var thongTinNhanVien = await fetch(window.location.origin + '/web_his/danhsach_canbo_nhanvien_sudungapiBHXH')
