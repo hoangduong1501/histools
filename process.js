@@ -75,7 +75,10 @@ window.addEventListener('load', async () => {
       "id_token": "06af04d0-3ef2-4636-aeaf-1c17802d0846",
       "token_type": "Bearer",
       "username": "70001_BV",
-      "expires_in": "2024-08-29T08:33:08.5454145Z"
+      "expires_in": "2024-08-29T08:33:08.5454145Z",
+      "hoTenCb": "Nguyễn Thị Huê",
+      "cccdCb": "024186018123",
+      "userId": "123456"
     };
 
     // #region Lấy thông tin tài khoản đăng nhập gdbhyt.baohiemxahoi.gov.vn
@@ -105,16 +108,16 @@ window.addEventListener('load', async () => {
     // #endregion
 
     //Kiểm tra thông tin nhân viên có trong danh sách đăng ký tra cứu thông tin thẻ BHYT
-    const vPhienLamViec = fromBinary(localStorage.getItem("his_search_session"));
-    debugger;
-    if (localStorage.getItem("his_search_session") !== undefined) {
-      localStorage.removeItem("authExtention");
-    }
+    // const vPhienLamViec = fromBinary(localStorage.getItem("his_search_session"));
+    // debugger;
+    // if (localStorage.getItem("his_search_session") !== undefined && (vPhienLamViec.split("ʘɷʘ")[1])) {
+    //   localStorage.removeItem("authExtention");
+    // }
 
-    // var strPhien_DangNhap = "ʘɷʘ" + vPhien_DangNhap.access_token + "ʘɷʘ" + vPhien_DangNhap.id_token + "ʘɷʘ" + vPhien_DangNhap.token_type + "ʘɷʘ" + vPhien_DangNhap.username + "ʘɷʘ" + vPhien_DangNhap.expires_in + "ʘɷʘ";
-    // var binPhien_DangNhap = toBinary(strPhien_DangNhap);
-    // localStorage.setItem("his_search_session", binPhien_DangNhap);
-    
+    var strPhien_DangNhap = JSON.stringify(vPhien_DangNhap);
+    var binPhien_DangNhap = toBinary(strPhien_DangNhap);
+    localStorage.setItem("his_search_session", binPhien_DangNhap);
+
 
     // while (vTrangThai_KetQua.ThongTin_QuyenTraCuu_BHXH.LanGoi < 3) {
     //   vTrangThai_KetQua.ThongTin_QuyenTraCuu_BHXH.TrangThai = await fetch(vLienKet_API.nhanvien_kiemtrathe)
