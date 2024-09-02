@@ -6,7 +6,7 @@ window.addEventListener('load', async () => {
       "laytoken_bhxh": "https://egw.baohiemxahoi.gov.vn/api/token/take",
       "kiemtra_bhyt": "https://egw.baohiemxahoi.gov.vn/api/egw/KQNhanLichSuKCB2024",
       "nhanvien_kiemtrathe": window.location.origin + "/web_his/danhsach_canbo_nhanvien_sudungapiBHXH",
-      "thongtin_dangnhap": window.location.origin + "/web_his/cau-hinh-bhxh"
+      "thongtin_dangnhap": window.location.origin + "/web_his/api/cau-hinh-bhxh"
     };
 
     const vThongTin_LayToken = {
