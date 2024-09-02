@@ -108,37 +108,43 @@ window.addEventListener('load', async () => {
     // #endregion
 
     //Kiểm tra thông tin nhân viên có trong danh sách đăng ký tra cứu thông tin thẻ BHYT
+    vPhien_DangNhap = JSON.parse(fromBinary(localStorage.getItem("his_search_session")));
+    debugger;
+    var vDVTT = dvtt;
+    while (vTrangThai_KetQua.ThongTin_QuyenTraCuu_BHXH.LanGoi < 3) {
+      vTrangThai_KetQua.ThongTin_QuyenTraCuu_BHXH.TrangThai = await fetch(vLienKet_API.nhanvien_kiemtrathe)
+        .then(response => {
+          if (response.ok) {
+            vTrangThai_KetQua.ThongTin_QuyenTraCuu_BHXH.LanGoi = 3;
+            return response.json();
+          } else {
+            vTrangThai_KetQua.ThongTin_QuyenTraCuu_BHXH.LanGoi++;
+            throw new Error('API request failed');
+          }
+        })
+        .then(data => {
+          debugger;
+          return true;
+        })
+        .catch(error => {
+          console.error(error);
+          return false;
+        });
+    }
+
+
     // const vPhienLamViec = fromBinary(localStorage.getItem("his_search_session"));
     // debugger;
     // if (localStorage.getItem("his_search_session") !== undefined && (vPhienLamViec.split("ʘɷʘ")[1])) {
     //   localStorage.removeItem("authExtention");
     // }
 
-    var strPhien_DangNhap = JSON.stringify(vPhien_DangNhap);
-    var binPhien_DangNhap = toBinary(strPhien_DangNhap);
-    localStorage.setItem("his_search_session", binPhien_DangNhap);
+    // var strPhien_DangNhap = JSON.stringify(vPhien_DangNhap);
+    // var binPhien_DangNhap = toBinary(strPhien_DangNhap);
+    // localStorage.setItem("his_search_session", binPhien_DangNhap);
 
 
-    // while (vTrangThai_KetQua.ThongTin_QuyenTraCuu_BHXH.LanGoi < 3) {
-    //   vTrangThai_KetQua.ThongTin_QuyenTraCuu_BHXH.TrangThai = await fetch(vLienKet_API.nhanvien_kiemtrathe)
-    //     .then(response => {
-    //       if (response.ok) {
-    //         vTrangThai_KetQua.ThongTin_QuyenTraCuu_BHXH.LanGoi = 3;
-    //         return response.json();
-    //       } else {
-    //         vTrangThai_KetQua.ThongTin_QuyenTraCuu_BHXH.LanGoi++;
-    //         throw new Error('API request failed');
-    //       }
-    //     })
-    //     .then(data => {
-    //       debugger;
-    //       return true;
-    //     })
-    //     .catch(error => {
-    //       console.error(error);
-    //       return false;
-    //     });
-    // }
+   
 
 
     // var thongTinNhanVien = await fetch(window.location.origin + '/web_his/danhsach_canbo_nhanvien_sudungapiBHXH')
