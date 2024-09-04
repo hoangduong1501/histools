@@ -95,7 +95,6 @@ window.addEventListener('load', async () => {
           }
         })
         .then(data => {
-          debugger;
           var vNhanVien = data.find((item) => item.MA_NHANVIEN_HIS.toString() === sessionStorage.getItem("userId"));
           if (vNhanVien === undefined || vNhanVien === null) {
             vTrangThai_KetQua.ThongTin_QuyenTraCuu_BHXH.QuyenTraCuu = false;
@@ -110,6 +109,7 @@ window.addEventListener('load', async () => {
         });
     }
 
+    //Kiểm tra tài khoản người dùng có quyền đăng nhập
     if (!vTrangThai_KetQua.ThongTin_QuyenTraCuu_BHXH.QuyenTraCuu) {
       alert("Tài khoản không có quyền tra cứu hoặc chưa được cấu hình trên HIS!");
     } else {
@@ -139,6 +139,37 @@ window.addEventListener('load', async () => {
       }
       // #endregion
 
+      // #region Lấy thông tin token tài khoản đăng nhập gdbhyt.baohiemxahoi.gov.vn
+      //Trường hợp gọi request thất bại sẽ gọi lại. Tối đa 3 lần
+      //Thông tin lấy từ api BHXH
+      while (vTrangThai_KetQua.ThongTin_LayToken_BHXH.LanGoi < 3) {
+        vTrangThai_KetQua.ThongTin_DangNhap_BHXH.TrangThai = await fetch(vLienKet_API.laytoken_bhxh, {
+          method: "POST",
+          body: FormBody(vThongTin_LayToken.Request.Body),
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+          }
+        })
+          .then(response => {
+            if (response.ok) {
+              vTrangThai_KetQua.ThongTin_LayToken_BHXH.LanGoi = 3;
+              return response.json();
+            } else {
+              vTrangThai_KetQua.ThongTin_LayToken_BHXH.LanGoi++;
+              throw new Error('API request failed');
+            }
+          })
+          .then(data => {
+
+            debugger;
+            return true;
+          })
+          .catch(error => {
+            debugger;
+            console.error(error + "\n Lỗi gọi API lấy token BHXH " + vLienKet_API.laytoken_bhxh);
+            return false;
+          });
+      }
 
     }
 
