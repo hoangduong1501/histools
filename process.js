@@ -58,6 +58,7 @@ window.addEventListener('load', async () => {
       },
       "ThongTin_QuyenTraCuu_BHXH": {
         "TrangThai": null,
+        "QuyenTraCuu": false,
         "LanGoi": 0
       },
       "ThongTin_TraCuu_BHXH": {
@@ -70,7 +71,7 @@ window.addEventListener('load', async () => {
       },
     };
 
-    const vPhien_DangNhap = {
+    var vPhien_DangNhap = {
       "access_token": "VzBoOUFvYU56NkluWlhZM3h1K2JtS2JXUUloUVhoU0ErN1hYODFNQjAwQT06NzAwMDFfQlY6MTMzNjkzOTMzODg1NDU0MTQ1",
       "id_token": "06af04d0-3ef2-4636-aeaf-1c17802d0846",
       "token_type": "Bearer",
@@ -81,36 +82,7 @@ window.addEventListener('load', async () => {
       "userId": "123456"
     };
 
-    // #region Lấy thông tin tài khoản đăng nhập gdbhyt.baohiemxahoi.gov.vn
-    //Trường hợp gọi request thất bại sẽ gọi lại. Tối đa 3 lần
-    //Thông tin lấy từ api His
-    while (vTrangThai_KetQua.ThongTin_DangNhap_BHXH.LanGoi < 3) {
-      vTrangThai_KetQua.ThongTin_DangNhap_BHXH.TrangThai = await fetch(vLienKet_API.thongtin_dangnhap)
-        .then(response => {
-          if (response.ok) {
-            vTrangThai_KetQua.ThongTin_DangNhap_BHXH.LanGoi = 3;
-            return response.json();
-          } else {
-            vTrangThai_KetQua.ThongTin_DangNhap_BHXH.LanGoi++;
-            throw new Error('API request failed');
-          }
-        })
-        .then(data => {
-          vThongTin_LayToken.Request.Body.username = vThongTin_KiemTraThe.Request.Body.username = data.THAM_SO_TAI_KHOAN;
-          vThongTin_LayToken.Request.Body.password = vThongTin_KiemTraThe.Request.Body.password = data.THAM_SO_MAT_KHAU;
-          return true;
-        })
-        .catch(error => {
-          console.error(error);
-          return false;
-        });
-    }
-    // #endregion
-
     //Kiểm tra thông tin nhân viên có trong danh sách đăng ký tra cứu thông tin thẻ BHYT
-    vPhien_DangNhap = JSON.parse(fromBinary(localStorage.getItem("his_search_session")));
-    debugger;
-    var vDVTT = dvtt;
     while (vTrangThai_KetQua.ThongTin_QuyenTraCuu_BHXH.LanGoi < 3) {
       vTrangThai_KetQua.ThongTin_QuyenTraCuu_BHXH.TrangThai = await fetch(vLienKet_API.nhanvien_kiemtrathe)
         .then(response => {
@@ -124,6 +96,12 @@ window.addEventListener('load', async () => {
         })
         .then(data => {
           debugger;
+          var vNhanVien = data.find((item) => item.MA_NHANVIEN_HIS.toString() === sessionStorage.getItem("userId"));
+          if (vNhanVien === undefined || vNhanVien === null) {
+            vTrangThai_KetQua.ThongTin_QuyenTraCuu_BHXH.QuyenTraCuu = false;
+          } else {
+            vTrangThai_KetQua.ThongTin_QuyenTraCuu_BHXH.QuyenTraCuu = true;
+          }
           return true;
         })
         .catch(error => {
@@ -131,6 +109,49 @@ window.addEventListener('load', async () => {
           return false;
         });
     }
+
+    if (!vTrangThai_KetQua.ThongTin_QuyenTraCuu_BHXH.QuyenTraCuu) {
+      alert("Tài khoản không có quyền tra cứu hoặc chưa được cấu hình trên HIS!");
+    } else {
+      // #region Lấy thông tin tài khoản đăng nhập gdbhyt.baohiemxahoi.gov.vn
+      //Trường hợp gọi request thất bại sẽ gọi lại. Tối đa 3 lần
+      //Thông tin lấy từ api His
+      while (vTrangThai_KetQua.ThongTin_DangNhap_BHXH.LanGoi < 3) {
+        vTrangThai_KetQua.ThongTin_DangNhap_BHXH.TrangThai = await fetch(vLienKet_API.thongtin_dangnhap)
+          .then(response => {
+            if (response.ok) {
+              vTrangThai_KetQua.ThongTin_DangNhap_BHXH.LanGoi = 3;
+              return response.json();
+            } else {
+              vTrangThai_KetQua.ThongTin_DangNhap_BHXH.LanGoi++;
+              throw new Error('API request failed');
+            }
+          })
+          .then(data => {
+            vThongTin_LayToken.Request.Body.username = vThongTin_KiemTraThe.Request.Body.username = data.THAM_SO_TAI_KHOAN;
+            vThongTin_LayToken.Request.Body.password = vThongTin_KiemTraThe.Request.Body.password = data.THAM_SO_MAT_KHAU;
+            return true;
+          })
+          .catch(error => {
+            console.error(error);
+            return false;
+          });
+      }
+      // #endregion
+
+
+    }
+
+    // vPhien_DangNhap = JSON.parse(fromBinary(localStorage.getItem("his_search_session")));
+
+    // if (vPhien_DangNhap.username.replace("_BV", "") !== dvtt) {
+    //   localStorage.removeItem("his_search_session");
+    //   var strPhien_DangNhap = JSON.stringify(vPhien_DangNhap);
+    //   var binPhien_DangNhap = toBinary(strPhien_DangNhap);
+    //   localStorage.setItem("his_search_session", binPhien_DangNhap);
+    // }
+
+
 
 
     // const vPhienLamViec = fromBinary(localStorage.getItem("his_search_session"));
@@ -144,7 +165,7 @@ window.addEventListener('load', async () => {
     // localStorage.setItem("his_search_session", binPhien_DangNhap);
 
 
-   
+
 
 
     // var thongTinNhanVien = await fetch(window.location.origin + '/web_his/danhsach_canbo_nhanvien_sudungapiBHXH')
