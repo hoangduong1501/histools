@@ -142,7 +142,7 @@ window.addEventListener('load', async () => {
       // #region Lấy thông tin token tài khoản đăng nhập gdbhyt.baohiemxahoi.gov.vn
       //Trường hợp gọi request thất bại sẽ gọi lại. Tối đa 3 lần
       //Thông tin lấy từ api BHXH
-      while (vTrangThai_KetQua.ThongTin_LayToken_BHXH.LanGoi < 3) {
+      while (vTrangThai_KetQua.ThongTin_DangNhap_BHXH.LanGoi < 3) {
         vTrangThai_KetQua.ThongTin_DangNhap_BHXH.TrangThai = await fetch(vLienKet_API.laytoken_bhxh, {
           method: "POST",
           body: FormBody(vThongTin_LayToken.Request.Body),
@@ -152,15 +152,15 @@ window.addEventListener('load', async () => {
         })
           .then(response => {
             if (response.ok) {
-              vTrangThai_KetQua.ThongTin_LayToken_BHXH.LanGoi = 3;
+              vTrangThai_KetQua.ThongTin_DangNhap_BHXH.LanGoi = 3;
               return response.json();
             } else {
-              vTrangThai_KetQua.ThongTin_LayToken_BHXH.LanGoi++;
+              vTrangThai_KetQua.ThongTin_DangNhap_BHXH.LanGoi++;
               throw new Error('API request failed');
             }
           })
           .then(data => {
-
+            vThongTin_LayToken.Response = data;
             debugger;
             return true;
           })
@@ -182,6 +182,9 @@ window.addEventListener('load', async () => {
 
       document.getElementById("btnKiemTraThongTin").addEventListener("click", (e) => {
         alert("Đã bật kiểm tra thẻ BHYT");
+        vThongTin_KiemTraThe.Request.Body.maThe = document.getElementById("sobhyt").value;
+        vThongTin_KiemTraThe.Request.Body.hoTen = document.getElementById("hoten").value;
+        vThongTin_KiemTraThe.Request.Body.ngaySinh = document.getElementById("namsinh").value;
       });
 
     }
