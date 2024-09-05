@@ -111,8 +111,7 @@ window.addEventListener('load', async () => {
 
     //Kiểm tra tài khoản người dùng có quyền đăng nhập
     if (!vTrangThai_KetQua.ThongTin_QuyenTraCuu_BHXH.QuyenTraCuu) {
-      // alert("Tài khoản không có quyền tra cứu hoặc chưa được cấu hình trên HIS!");
-      jAlert("Tài khoản không có quyền tra cứu hoặc chưa được cấu hình trên HIS!", 'Thông báo');
+      jAlert("Tài khoản của bạn không có quyền tra cứu hoặc chưa được cấu hình trên HIS!", 'Thông báo');
     } else {
       // #region Lấy thông tin tài khoản đăng nhập gdbhyt.baohiemxahoi.gov.vn
       //Trường hợp gọi request thất bại sẽ gọi lại. Tối đa 3 lần
@@ -162,6 +161,8 @@ window.addEventListener('load', async () => {
           })
           .then(data => {
             vThongTin_LayToken.Response = data;
+            vThongTin_KiemTraThe.Request.Params.id_token = data.APIKey.id_token;
+            vThongTin_KiemTraThe.Request.Params.token = data.APIKey.access_token;
             debugger;
             return true;
           })
@@ -181,13 +182,47 @@ window.addEventListener('load', async () => {
       btnKiemTraThongTin.click = "myFunction";
       document.getElementById("baohiem5nam_label").parentElement.appendChild(btnKiemTraThongTin);
 
-      document.getElementById("btnKiemTraThongTin").addEventListener("click", (e) => {
-        alert("Đã bật kiểm tra thẻ BHYT");
+      document.getElementById("btnKiemTraThongTin").addEventListener("click", async (e) => {
+        jAlert("Đã bật kiểm tra thẻ BHYT", 'Thông báo');
         vThongTin_KiemTraThe.Request.Body.maThe = document.getElementById("sobhyt").value;
         vThongTin_KiemTraThe.Request.Body.hoTen = document.getElementById("hoten").value;
         vThongTin_KiemTraThe.Request.Body.ngaySinh = document.getElementById("namsinh").value;
 
-        
+        vLienKet_API.kiemtra_bhyt += (Object.keys(vThongTin_KiemTraThe.Request.Params)[0] + vThongTin_KiemTraThe.Request.Params.username +
+          Object.keys(vThongTin_KiemTraThe.Request.Params)[1] + vThongTin_KiemTraThe.Request.Params.password +
+          Object.keys(vThongTin_KiemTraThe.Request.Params)[2] + vThongTin_KiemTraThe.Request.Params.token +
+          Object.keys(vThongTin_KiemTraThe.Request.Params)[3] + vThongTin_KiemTraThe.Request.Params.id_token);
+
+        while (vTrangThai_KetQua.ThongTin_TraCuu_BHXH.LanGoi < 3) {
+          vTrangThai_KetQua.ThongTin_TraCuu_BHXH.TrangThai = await fetch(vLienKet_API.kiemtra_bhyt, {
+            method: "POST",
+            body: FormBody(vThongTin_KiemTraThe.Request.Body),
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+            }
+          })
+            .then(response => {
+              if (response.ok) {
+                vTrangThai_KetQua.ThongTin_TraCuu_BHXH.LanGoi = 3;
+                return response.json();
+              } else {
+                vTrangThai_KetQua.ThongTin_TraCuu_BHXH.LanGoi++;
+                throw new Error('API request failed');
+              }
+            })
+            .then(data => {
+              
+              debugger;
+              return true;
+            })
+            .catch(error => {
+              debugger;
+              console.error(error + "\n Lỗi gọi API lấy token BHXH " + vLienKet_API.laytoken_bhxh);
+              return false;
+            });
+
+        }
+
       });
 
     }
