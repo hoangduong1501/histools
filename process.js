@@ -111,7 +111,8 @@ window.addEventListener('load', async () => {
 
     //Kiểm tra tài khoản người dùng có quyền đăng nhập
     if (!vTrangThai_KetQua.ThongTin_QuyenTraCuu_BHXH.QuyenTraCuu) {
-      alert("Tài khoản không có quyền tra cứu hoặc chưa được cấu hình trên HIS!");
+      // alert("Tài khoản không có quyền tra cứu hoặc chưa được cấu hình trên HIS!");
+      jAlert("Tài khoản không có quyền tra cứu hoặc chưa được cấu hình trên HIS!", 'Thông báo');
     } else {
       // #region Lấy thông tin tài khoản đăng nhập gdbhyt.baohiemxahoi.gov.vn
       //Trường hợp gọi request thất bại sẽ gọi lại. Tối đa 3 lần
@@ -185,6 +186,8 @@ window.addEventListener('load', async () => {
         vThongTin_KiemTraThe.Request.Body.maThe = document.getElementById("sobhyt").value;
         vThongTin_KiemTraThe.Request.Body.hoTen = document.getElementById("hoten").value;
         vThongTin_KiemTraThe.Request.Body.ngaySinh = document.getElementById("namsinh").value;
+
+        
       });
 
     }
