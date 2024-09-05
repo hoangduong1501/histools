@@ -24,7 +24,7 @@ window.addEventListener('load', async () => {
           "access_token": "VzBoOUFvYU56NkluWlhZM3h1K2JtS2JXUUloUVhoU0ErN1hYODFNQjAwQT06NzAwMDFfQlY6MTMzNjkzOTMzODg1NDU0MTQ1",
           "id_token": "06af04d0-3ef2-4636-aeaf-1c17802d0846",
           "token_type": "Bearer",
-          "username": "70001_BV",
+          "username": "70000_BV",
           "expires_in": "2024-08-29T08:33:08.5454145Z"
         }
       }
@@ -42,8 +42,8 @@ window.addEventListener('load', async () => {
           "maThe": "7020937133",
           "hoTen": "TRAN VAN TAI",
           "ngaySinh": "29/03/2002",
-          "hoTenCb": "Nguyễn Thị Huê",
-          "cccdCb": "024186018123"
+          "hoTenCb": "Nguyễn Thị Thanh Hà",
+          "cccdCb": "012345678910"
         }
       },
       "Response": {
@@ -166,15 +166,12 @@ window.addEventListener('load', async () => {
             vThongTin_LayToken.Response = data;
             vThongTin_KiemTraThe.Request.Params.id_token = data.APIKey.id_token;
             vThongTin_KiemTraThe.Request.Params.token = data.APIKey.access_token;
-            debugger;
             return true;
           })
           .catch(error => {
-            debugger;
             console.error(error + "\n Lỗi gọi API lấy token BHXH " + vLienKet_API.laytoken_bhxh);
             return false;
           });
-
       }
 
       var btnKiemTraThongTin = document.createElement('button');
@@ -185,15 +182,18 @@ window.addEventListener('load', async () => {
       btnKiemTraThongTin.click = "myFunction";
       document.getElementById("baohiem5nam_label").parentElement.appendChild(btnKiemTraThongTin);
 
-      document.getElementById("btnKiemTraThongTin").addEventListener("click", async (e) => {
+      document.getElementById("btnKiemTraThongTin").addEventListener("click", async (e) => {        
+        vTrangThai_KetQua.ThongTin_TraCuu_BHXH.LanGoi = 0;
         vThongTin_KiemTraThe.Request.Body.maThe = document.getElementById("sobhyt").value;
         vThongTin_KiemTraThe.Request.Body.hoTen = document.getElementById("hoten").value;
         vThongTin_KiemTraThe.Request.Body.ngaySinh = document.getElementById("namsinh").value;
 
-        vLienKet_API.kiemtra_bhyt += "?" + (Object.keys(vThongTin_KiemTraThe.Request.Params)[0] + "=" + vThongTin_KiemTraThe.Request.Params.username + "&" +
+        vLienKet_API.kiemtra_bhyt += "?" + (
+          Object.keys(vThongTin_KiemTraThe.Request.Params)[0] + "=" + vThongTin_KiemTraThe.Request.Params.username + "&" +
           Object.keys(vThongTin_KiemTraThe.Request.Params)[1] + "=" + vThongTin_KiemTraThe.Request.Params.password + "&" +
           Object.keys(vThongTin_KiemTraThe.Request.Params)[2] + "=" + vThongTin_KiemTraThe.Request.Params.token + "&" +
-          Object.keys(vThongTin_KiemTraThe.Request.Params)[3] + "=" + vThongTin_KiemTraThe.Request.Params.id_token);
+          Object.keys(vThongTin_KiemTraThe.Request.Params)[3] + "=" + vThongTin_KiemTraThe.Request.Params.id_token
+        );
 
         while (vTrangThai_KetQua.ThongTin_TraCuu_BHXH.LanGoi < 3) {
           vTrangThai_KetQua.ThongTin_TraCuu_BHXH.TrangThai = await fetch(vLienKet_API.kiemtra_bhyt, {
@@ -213,8 +213,12 @@ window.addEventListener('load', async () => {
               }
             })
             .then(data => {
-
               debugger;
+              if (data.maKetQua === 401) {
+
+              } else {
+
+              }
               return true;
             })
             .catch(error => {
