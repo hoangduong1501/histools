@@ -100,6 +100,8 @@ window.addEventListener('load', async () => {
             vTrangThai_KetQua.ThongTin_QuyenTraCuu_BHXH.QuyenTraCuu = false;
           } else {
             vTrangThai_KetQua.ThongTin_QuyenTraCuu_BHXH.QuyenTraCuu = true;
+            vThongTin_KiemTraThe.Request.Body.hoTen = vNhanVien.TEN_NHANVIEN;
+            vThongTin_KiemTraThe.Request.Body.cccdCb = vNhanVien.SO_CCCD_NV;
           }
           return true;
         })
@@ -121,6 +123,7 @@ window.addEventListener('load', async () => {
           .then(response => {
             if (response.ok) {
               vTrangThai_KetQua.ThongTin_DangNhap_BHXH.LanGoi = 3;
+
               return response.json();
             } else {
               vTrangThai_KetQua.ThongTin_DangNhap_BHXH.LanGoi++;
@@ -128,8 +131,8 @@ window.addEventListener('load', async () => {
             }
           })
           .then(data => {
-            vThongTin_LayToken.Request.Body.username = vThongTin_KiemTraThe.Request.Body.username = data.THAM_SO_TAI_KHOAN;
-            vThongTin_LayToken.Request.Body.password = vThongTin_KiemTraThe.Request.Body.password = genMD5(data.THAM_SO_MAT_KHAU);
+            vThongTin_LayToken.Request.Body.username = vThongTin_KiemTraThe.Request.Params.username = data.THAM_SO_TAI_KHOAN;
+            vThongTin_LayToken.Request.Body.password = vThongTin_KiemTraThe.Request.Params.password = genMD5(data.THAM_SO_MAT_KHAU);
             return true;
           })
           .catch(error => {
@@ -183,7 +186,6 @@ window.addEventListener('load', async () => {
       document.getElementById("baohiem5nam_label").parentElement.appendChild(btnKiemTraThongTin);
 
       document.getElementById("btnKiemTraThongTin").addEventListener("click", async (e) => {
-        jAlert("Đã bật kiểm tra thẻ BHYT", 'Thông báo');
         vThongTin_KiemTraThe.Request.Body.maThe = document.getElementById("sobhyt").value;
         vThongTin_KiemTraThe.Request.Body.hoTen = document.getElementById("hoten").value;
         vThongTin_KiemTraThe.Request.Body.ngaySinh = document.getElementById("namsinh").value;
