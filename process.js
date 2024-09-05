@@ -182,7 +182,7 @@ window.addEventListener('load', async () => {
         vThongTin_KiemTraThe.Request.Body.hoTen = document.getElementById("hoten").value;
         vThongTin_KiemTraThe.Request.Body.ngaySinh = document.getElementById("namsinh").value;
 
-        vLienKet_API.kiemtra_bhyt += "?" + (
+        var vUrlKiemTraBHYT = vLienKet_API.kiemtra_bhyt + "?" + (
           Object.keys(vThongTin_KiemTraThe.Request.Params)[0] + "=" + vThongTin_KiemTraThe.Request.Params.username + "&" +
           Object.keys(vThongTin_KiemTraThe.Request.Params)[1] + "=" + vThongTin_KiemTraThe.Request.Params.password + "&" +
           Object.keys(vThongTin_KiemTraThe.Request.Params)[2] + "=" + vThongTin_KiemTraThe.Request.Params.token + "&" +
@@ -190,7 +190,7 @@ window.addEventListener('load', async () => {
         );
 
         while (vTrangThai_KetQua.ThongTin_TraCuu_BHXH.LanGoi < 3) {
-          vTrangThai_KetQua.ThongTin_TraCuu_BHXH.TrangThai = await fetch(vLienKet_API.kiemtra_bhyt, {
+          vTrangThai_KetQua.ThongTin_TraCuu_BHXH.TrangThai = await fetch(vUrlKiemTraBHYT, {
             method: "POST",
             body: FormBody(vThongTin_KiemTraThe.Request.Body),
             headers: {
