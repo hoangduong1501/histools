@@ -54,32 +54,25 @@ window.addEventListener('load', async () => {
     const vTrangThai_KetQua = {
       "ThongTin_DangNhap_BHXH": {
         "TrangThai": null,
-        "LanGoi": 0
+        "LanGoi": 0,
       },
       "ThongTin_QuyenTraCuu_BHXH": {
         "TrangThai": null,
         "QuyenTraCuu": false,
-        "LanGoi": 0
+        "LanGoi": 0,
       },
       "ThongTin_TraCuu_BHXH": {
         "TrangThai": null,
-        "LanGoi": 0
+        "LanGoi": 0,
+        "LayToken": {
+          "TrangThai": null,
+          "LanGoi": 0,
+        },
       },
       "ThongTin_LayToken_BHXH": {
         "TrangThai": null,
-        "LanGoi": 0
+        "LanGoi": 0,
       },
-    };
-
-    var vPhien_DangNhap = {
-      "access_token": "VzBoOUFvYU56NkluWlhZM3h1K2JtS2JXUUloUVhoU0ErN1hYODFNQjAwQT06NzAwMDFfQlY6MTMzNjkzOTMzODg1NDU0MTQ1",
-      "id_token": "06af04d0-3ef2-4636-aeaf-1c17802d0846",
-      "token_type": "Bearer",
-      "username": "70001_BV",
-      "expires_in": "2024-08-29T08:33:08.5454145Z",
-      "hoTenCb": "Nguyễn Thị Huê",
-      "cccdCb": "024186018123",
-      "userId": "123456"
     };
 
     //Kiểm tra thông tin nhân viên có trong danh sách đăng ký tra cứu thông tin thẻ BHYT
@@ -173,6 +166,7 @@ window.addEventListener('load', async () => {
             return false;
           });
       }
+      // #endregion
 
       var btnKiemTraThongTin = document.createElement('button');
       btnKiemTraThongTin.innerHTML = '<i class="fa fa-check-square-o" aria-hidden="true"></i> Kiểm tra thẻ BHYT';
@@ -182,7 +176,7 @@ window.addEventListener('load', async () => {
       btnKiemTraThongTin.click = "myFunction";
       document.getElementById("baohiem5nam_label").parentElement.appendChild(btnKiemTraThongTin);
 
-      document.getElementById("btnKiemTraThongTin").addEventListener("click", async (e) => {        
+      document.getElementById("btnKiemTraThongTin").addEventListener("click", async (e) => {
         vTrangThai_KetQua.ThongTin_TraCuu_BHXH.LanGoi = 0;
         vThongTin_KiemTraThe.Request.Body.maThe = document.getElementById("sobhyt").value;
         vThongTin_KiemTraThe.Request.Body.hoTen = document.getElementById("hoten").value;
@@ -212,12 +206,55 @@ window.addEventListener('load', async () => {
                 throw new Error('API request failed');
               }
             })
-            .then(data => {
+            .then(async (data) => {
               debugger;
-              if (data.maKetQua === 401) {
+              if (data.maKetQua === "401") {
+                vTrangThai_KetQua.ThongTin_TraCuu_BHXH.LayToken.LanGoi = 0;
+                //#region Lấy lại token khi hết hạn hoặc sai thông tin
+                while (vTrangThai_KetQua.ThongTin_LayToken_BHXH.LayToken.LanGoi < 3) {
+                  vTrangThai_KetQua.ThongTin_LayToken_BHXH.LayToken.TrangThai = await fetch(vLienKet_API.laytoken_bhxh, {
+                    method: "POST",
+                    body: FormBody(vThongTin_LayToken.Request.Body),
+                    headers: {
+                      'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                    }
+                  })
+                    .then(response => {
+                      if (response.ok) {
+                        vTrangThai_KetQua.ThongTin_LayToken_BHXH.LayToken.LanGoi = 3;
+                        return response.json();
+                      } else {
+                        vTrangThai_KetQua.ThongTin_LayToken_BHXH.LayToken.LanGoi++;
+                        throw new Error('API request failed');
+                      }
+                    })
+                    .then(data => {
+                      vThongTin_LayToken.Response = data;
+                      vThongTin_KiemTraThe.Request.Params.id_token = data.APIKey.id_token;
+                      vThongTin_KiemTraThe.Request.Params.token = data.APIKey.access_token;
+                      return true;
+                    })
+                    .catch(error => {
+                      console.error(error + "\n Lỗi gọi API lấy lại token BHXH " + vLienKet_API.laytoken_bhxh);
+                      return false;
+                    });
+                }
+                //#endregion
 
-              } else {
-
+                //Kiểm tra trạng thái lấy lại token
+                if (vTrangThai_KetQua.ThongTin_LayToken_BHXH.LayToken.TrangThai) {
+                  vTrangThai_KetQua.ThongTin_TraCuu_BHXH.LanGoi = 0; // Đặt lại giá trị để kiểm tra lại thông tin tiếp tục thực hiện gọi kiểm tra dữ liệu
+                } else {
+                  //Thông báo lỗi và dừng quá trình kiểm tra
+                  jAlert("Lỗi xác thực giám định!", 'Thông báo');
+                  vTrangThai_KetQua.ThongTin_TraCuu_BHXH.LanGoi = 3;
+                  return false;
+                }
+              }
+              else {
+                //Thực hiện các thao tác hiển thị thông tin lấy từ cổng giám định
+                //Thông báo trường dữ liệu đúng, sai
+                jAlert(JSON.stringify(data), 'Thông báo');
               }
               return true;
             })
