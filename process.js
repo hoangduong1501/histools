@@ -100,7 +100,7 @@ window.addEventListener('load', async () => {
             vTrangThai_KetQua.ThongTin_QuyenTraCuu_BHXH.QuyenTraCuu = false;
           } else {
             vTrangThai_KetQua.ThongTin_QuyenTraCuu_BHXH.QuyenTraCuu = true;
-            vThongTin_KiemTraThe.Request.Body.hoTen = vNhanVien.TEN_NHANVIEN;
+            vThongTin_KiemTraThe.Request.Body.hoTenCb = vNhanVien.TEN_NHANVIEN;
             vThongTin_KiemTraThe.Request.Body.cccdCb = vNhanVien.SO_CCCD_NV;
           }
           return true;
