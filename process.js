@@ -199,7 +199,7 @@ window.addEventListener('load', async () => {
       document.getElementById("btnKiemTraThongTin").addEventListener("click", async (e) => {
 
         //Làm trống thông tin kiểm tra thẻ trước đó
-        while ( document.getElementById("thongTinKhiemTraThe").hasChildNodes()) {
+        while (document.getElementById("thongTinKhiemTraThe").hasChildNodes()) {
           document.getElementById("thongTinKhiemTraThe").removeChild(document.getElementById("thongTinKhiemTraThe").firstChild);
         }
 
@@ -279,9 +279,7 @@ window.addEventListener('load', async () => {
                 }
               }
               else if (data.maKetQua === "000") {
-                //Thực hiện các thao tác hiển thị thông tin lấy từ cổng giám định
-                //Thông báo trường dữ liệu đúng, sai
-                
+                //Thực hiện các thao tác hiển thị thông tin lấy từ cổng giám định              
                 var thongTinDinhDanhBHYT = document.createElement('h4');
                 thongTinDinhDanhBHYT.style.color = "darkblue";
                 thongTinDinhDanhBHYT.style.paddingLeft = "20";
@@ -294,13 +292,33 @@ window.addEventListener('load', async () => {
                 thongTinVaoVienGanNhat.style.color = "green";
                 thongTinVaoVienGanNhat.style.paddingLeft = "20";
                 thongTinVaoVienGanNhat.style.paddingRight = "20";
-                thongTinVaoVienGanNhat.style.margin = "2 0 10 0";
+                thongTinVaoVienGanNhat.style.margin = "2 0 2 0";
                 thongTinVaoVienGanNhat.innerHTML = 'Thời gian khám gần nhất vào viện: <span style="color: darkred"> '
-                +data.dsLichSuKCB2018[0].ngayVao.substring(6,8) + '/' +data.dsLichSuKCB2018[0].ngayVao.substring(4,6) + '/' +data.dsLichSuKCB2018[0].ngayVao.substring(0,4) + ' ' + data.dsLichSuKCB2018[0].ngayVao.substring(8,10)+ ':' + data.dsLichSuKCB2018[0].ngayVao.substring(10,12)
-                +'</span> ra viện:  <span style="color: darkred">'
-                +data.dsLichSuKCB2018[0].ngayRa.substring(6,8) + '/' +data.dsLichSuKCB2018[0].ngayRa.substring(4,6) + '/' +data.dsLichSuKCB2018[0].ngayRa.substring(0,4) + ' ' + data.dsLichSuKCB2018[0].ngayRa.substring(8,10)+ ':' + data.dsLichSuKCB2018[0].ngayRa.substring(10,12)
-                '</span>';
+                  + data.dsLichSuKCB2018[0].ngayVao.substring(6, 8) + '/' + data.dsLichSuKCB2018[0].ngayVao.substring(4, 6) + '/' + data.dsLichSuKCB2018[0].ngayVao.substring(0, 4) + ' ' + data.dsLichSuKCB2018[0].ngayVao.substring(8, 10) + ':' + data.dsLichSuKCB2018[0].ngayVao.substring(10, 12)
+                  + '</span> ra viện:  <span style="color: darkred">'
+                  + data.dsLichSuKCB2018[0].ngayRa.substring(6, 8) + '/' + data.dsLichSuKCB2018[0].ngayRa.substring(4, 6) + '/' + data.dsLichSuKCB2018[0].ngayRa.substring(0, 4) + ' ' + data.dsLichSuKCB2018[0].ngayRa.substring(8, 10) + ':' + data.dsLichSuKCB2018[0].ngayRa.substring(10, 12)
+                  + '</span> tại cơ sở :  <span style="color: darkred">'
+                  + data.dsLichSuKCB2018[0].maCSKCB
+                  + '</span>';
                 document.getElementById("thongTinKhiemTraThe").appendChild(thongTinVaoVienGanNhat);
+                
+                var thongTinLichSuKham = document.createElement('a');
+                thongTinLichSuKham.style.color = "darkblue";
+                thongTinLichSuKham.style.paddingLeft = "20";
+                thongTinLichSuKham.style.paddingRight = "20";
+                thongTinLichSuKham.style.margin = "10 0 2 0";
+                thongTinLichSuKham.innerText = "Lịch sử khám bệnh ";
+                
+                document.getElementById("thongTinKhiemTraThe").appendChild(thongTinLichSuKham);
+
+                var thongTinLichSuKiemTraThe = document.createElement('a');
+                thongTinLichSuKiemTraThe.style.color = "darkblue";
+                thongTinLichSuKiemTraThe.style.paddingLeft = "20";
+                thongTinLichSuKiemTraThe.style.paddingRight = "20";
+                thongTinLichSuKiemTraThe.style.margin = "10 0 2 0";
+                thongTinLichSuKiemTraThe.innerText = "Lịch sử tra cứu thông tin thẻ ";
+                document.getElementById("thongTinKhiemTraThe").appendChild(thongTinLichSuKiemTraThe);
+
                 debugger;
                 document.getElementById("btnKiemTraThongTin").disabled = false;
 
