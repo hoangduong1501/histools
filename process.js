@@ -273,10 +273,20 @@ window.addEventListener('load', async () => {
               else if (data.maKetQua === "000") {
                 //Thực hiện các thao tác hiển thị thông tin lấy từ cổng giám định
                 //Thông báo trường dữ liệu đúng, sai
-                //jAlert(JSON.stringify(data), 'Thông báo');
-                var thongTinDinhDanhBHYT = document.createElement('p');
+                
+                var thongTinDinhDanhBHYT = document.createElement('h4');
+                thongTinDinhDanhBHYT.style.color = "darkblue";
+                thongTinDinhDanhBHYT.style.paddingLeft = "20";
+                thongTinDinhDanhBHYT.style.paddingRight = "20";
                 thongTinDinhDanhBHYT.innerHTML = data.ghiChu;
                 document.getElementById("thongTinKhiemTraThe").appendChild(thongTinDinhDanhBHYT);
+
+                var thongTinVaoVienGanNhat = document.createElement('h4');
+                thongTinVaoVienGanNhat.style.color = "green";
+                thongTinVaoVienGanNhat.style.paddingLeft = "20";
+                thongTinVaoVienGanNhat.style.paddingRight = "20";
+                thongTinVaoVienGanNhat.innerHTML = 'Thời gian khám gần nhất: <span style="color: darkred"> 18/09/2024 12:20 - 18/09/2024 15:10</span>';
+                document.getElementById("thongTinKhiemTraThe").appendChild(thongTinVaoVienGanNhat);
                 debugger;
 
               } else {
