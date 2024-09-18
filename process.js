@@ -275,10 +275,11 @@ window.addEventListener('load', async () => {
                 //Thực hiện các thao tác hiển thị thông tin lấy từ cổng giám định
                 //Thông báo trường dữ liệu đúng, sai
                 //jAlert(JSON.stringify(data), 'Thông báo');
-                document.getElementById("thongTinKhiemTraThe")
-                .insertAdjacentHTML("afterend",'<h3> '+data.ghiChu+' </h3>');
+                var thongTinDinhDanhBHYT = document.createElement('p');
+                thongTinDinhDanhBHYT.innerHTML = data.ghiChu;
+                document.getElementById("thongTinKhiemTraThe").appendChild(thongTinDinhDanhBHYT);
                 debugger;
-                
+
               } else {
                 console.log("Lỗi ngoại lệ trả về: " + data);
               }
@@ -395,7 +396,7 @@ window.addEventListener('load', async () => {
     // });
     //#endregion
   }
-  else if (urlApp.includes("kiemtrabangke")||urlApp.includes("kiemtrabangkebannt")||urlApp.includes("kiemtrabangkenoitru")) {
+  else if (urlApp.includes("kiemtrabangke") || urlApp.includes("kiemtrabangkebannt") || urlApp.includes("kiemtrabangkenoitru")) {
     console.log(urlApp);
   } else {
     console.log(urlApp);
