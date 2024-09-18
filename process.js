@@ -194,7 +194,7 @@ window.addEventListener('load', async () => {
       document.getElementById("baohiem5nam_label").parentElement.appendChild(btnKiemTraThongTin);
 
       //thêm div để hiển thị nội dung thông tin thẻ khi tra cứu
-      document.getElementById("formtiepnhan").childNodes[1].innerHTML = '<div id="thongTinKhiemTraThe"></div>' + document.getElementById("formtiepnhan").innerHTML
+      document.getElementById("thongtin").childNodes[1].innerHTML = '<div id="thongTinKhiemTraThe"></div>' + document.getElementById("formtiepnhan").innerHTML
 
       document.getElementById("btnKiemTraThongTin").addEventListener("click", async (e) => {
         vTrangThai_KetQua.ThongTin_TraCuu_BHXH.LanGoi = 0;
@@ -227,7 +227,6 @@ window.addEventListener('load', async () => {
               }
             })
             .then(async (data) => {
-              debugger;
               if (data.maKetQua === "401") {
                 vTrangThai_KetQua.ThongTin_TraCuu_BHXH.LayToken.LanGoi = 0;
                 //#region Lấy lại token khi hết hạn hoặc sai thông tin
