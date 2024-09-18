@@ -197,6 +197,14 @@ window.addEventListener('load', async () => {
       document.getElementById("thongtin").childNodes[1].innerHTML = '<div id="thongTinKhiemTraThe"></div>' + document.getElementById("formtiepnhan").innerHTML
 
       document.getElementById("btnKiemTraThongTin").addEventListener("click", async (e) => {
+
+        //Làm trống thông tin kiểm tra thẻ trước đó
+        while ( document.getElementById("thongTinKhiemTraThe").hasChildNodes()) {
+          document.getElementById("thongTinKhiemTraThe").removeChild(document.getElementById("thongTinKhiemTraThe").firstChild);
+        }
+
+        document.getElementById("btnKiemTraThongTin").disabled = true;
+
         vTrangThai_KetQua.ThongTin_TraCuu_BHXH.LanGoi = 0;
         vThongTin_KiemTraThe.Request.Body.maThe = document.getElementById("sobhyt").value;
         vThongTin_KiemTraThe.Request.Body.hoTen = document.getElementById("hoten").value;
@@ -278,6 +286,7 @@ window.addEventListener('load', async () => {
                 thongTinDinhDanhBHYT.style.color = "darkblue";
                 thongTinDinhDanhBHYT.style.paddingLeft = "20";
                 thongTinDinhDanhBHYT.style.paddingRight = "20";
+                thongTinDinhDanhBHYT.style.margin = "10 0 2 0";
                 thongTinDinhDanhBHYT.innerHTML = data.ghiChu;
                 document.getElementById("thongTinKhiemTraThe").appendChild(thongTinDinhDanhBHYT);
 
@@ -285,18 +294,22 @@ window.addEventListener('load', async () => {
                 thongTinVaoVienGanNhat.style.color = "green";
                 thongTinVaoVienGanNhat.style.paddingLeft = "20";
                 thongTinVaoVienGanNhat.style.paddingRight = "20";
+                thongTinVaoVienGanNhat.style.margin = "2 0 10 0";
                 thongTinVaoVienGanNhat.innerHTML = 'Thời gian khám gần nhất: <span style="color: darkred"> 18/09/2024 12:20 - 18/09/2024 15:10</span>';
                 document.getElementById("thongTinKhiemTraThe").appendChild(thongTinVaoVienGanNhat);
                 debugger;
+                document.getElementById("btnKiemTraThongTin").disabled = false;
 
               } else {
                 console.log("Lỗi ngoại lệ trả về: " + data);
+                document.getElementById("btnKiemTraThongTin").disabled = false;
               }
               return true;
             })
             .catch(error => {
               debugger;
               console.error(error + "\n Lỗi gọi API lấy token BHXH " + vLienKet_API.laytoken_bhxh);
+              document.getElementById("btnKiemTraThongTin").disabled = false;
               return false;
             });
         }
