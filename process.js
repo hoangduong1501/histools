@@ -274,7 +274,9 @@ window.addEventListener('load', async () => {
               else if (data.maKetQua === "000") {
                 //Thực hiện các thao tác hiển thị thông tin lấy từ cổng giám định
                 //Thông báo trường dữ liệu đúng, sai
-                jAlert(JSON.stringify(data), 'Thông báo');
+                //jAlert(JSON.stringify(data), 'Thông báo');
+                document.getElementById("thongTinKhiemTraThe")
+                .insertAdjacentHTML("afterend",'<h3> '+data.ghiChu+' </h3>');
                 debugger;
                 
               } else {
