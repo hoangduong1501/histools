@@ -295,7 +295,11 @@ window.addEventListener('load', async () => {
                 thongTinVaoVienGanNhat.style.paddingLeft = "20";
                 thongTinVaoVienGanNhat.style.paddingRight = "20";
                 thongTinVaoVienGanNhat.style.margin = "2 0 10 0";
-                thongTinVaoVienGanNhat.innerHTML = 'Thời gian khám gần nhất: <span style="color: darkred"> 18/09/2024 12:20 - 18/09/2024 15:10</span>';
+                thongTinVaoVienGanNhat.innerHTML = 'Thời gian khám gần nhất vào viện: <span style="color: darkred"> '
+                +data.dsLichSuKCB2018[0].ngayVao.substring(6,8) + '/' +data.dsLichSuKCB2018[0].ngayVao.substring(4,6) + '/' +data.dsLichSuKCB2018[0].ngayVao.substring(0,4) + ' ' + data.dsLichSuKCB2018[0].ngayVao.substring(8,10)+ ':' + data.dsLichSuKCB2018[0].ngayVao.substring(10,12)
+                +'</span> ra viện:  <span style="color: darkred">'
+                +data.dsLichSuKCB2018[0].ngayRa.substring(6,8) + '/' +data.dsLichSuKCB2018[0].ngayRa.substring(4,6) + '/' +data.dsLichSuKCB2018[0].ngayRa.substring(0,4) + ' ' + data.dsLichSuKCB2018[0].ngayRa.substring(8,10)+ ':' + data.dsLichSuKCB2018[0].ngayRa.substring(10,12)
+                '</span>';
                 document.getElementById("thongTinKhiemTraThe").appendChild(thongTinVaoVienGanNhat);
                 debugger;
                 document.getElementById("btnKiemTraThongTin").disabled = false;
