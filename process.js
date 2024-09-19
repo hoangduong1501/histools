@@ -303,21 +303,21 @@ window.addEventListener('load', async () => {
                   + '</span>';
                 document.getElementById("thongTinKhiemTraThe").appendChild(thongTinVaoVienGanNhat);
                 
-                var thongTinLichSuKham = document.createElement('u');
+                var thongTinLichSuKham = document.createElement('a');
                 thongTinLichSuKham.style.color = "darkblue";
                 thongTinLichSuKham.style.paddingLeft = "20";
                 thongTinLichSuKham.style.paddingRight = "20";
                 thongTinLichSuKham.style.margin = "10 0 2 0";
-                thongTinLichSuKham.innerText = '<i class="fa fa-history" aria-hidden="true"></i> Xem lịch sử khám bệnh tại đây';
+                thongTinLichSuKham.innerText = '<i class="fa fa-history" aria-hidden="true"></i> <a> Xem lịch sử khám bệnh tại đây</a>';
                 
                 document.getElementById("thongTinKhiemTraThe").appendChild(thongTinLichSuKham);
 
-                var thongTinLichSuKiemTraThe = document.createElement('u');
+                var thongTinLichSuKiemTraThe = document.createElement('a');
                 thongTinLichSuKiemTraThe.style.color = "darkblue";
                 thongTinLichSuKiemTraThe.style.paddingLeft = "20";
                 thongTinLichSuKiemTraThe.style.paddingRight = "20";
                 thongTinLichSuKiemTraThe.style.margin = "10 0 2 0";
-                thongTinLichSuKiemTraThe.innerText = '<i class="fa fa-info" aria-hidden="true"></i> Xem lịch sử tra cứu thông tin thẻ tại đây';
+                thongTinLichSuKiemTraThe.innerText = '<i class="fa fa-info" aria-hidden="true"></i> <a> Xem lịch sử tra cứu thông tin thẻ tại đây</a>';
                 document.getElementById("thongTinKhiemTraThe").appendChild(thongTinLichSuKiemTraThe);
 
                 debugger;
