@@ -199,12 +199,16 @@ window.addEventListener('load', async () => {
       //Thêm hành động click cho nút Kiểm tra thẻ BHYT
       document.getElementById("btnKiemTraThongTin").addEventListener("click", async (e) => {
 
+        if (document.getElementById("sobhyt").value.length === 0 || document.getElementById("hoten").value.length === 0 || document.getElementById("namsinh").value.length === 0) {
+          return;
+        }
+
         //Làm trống thông tin kiểm tra thẻ trước đó
         while (document.getElementById("thongTinKhiemTraThe").hasChildNodes()) {
           document.getElementById("thongTinKhiemTraThe").removeChild(document.getElementById("thongTinKhiemTraThe").firstChild);
         }
 
-        document.getElementById("btnKiemTraThongTin").disabled = true;
+        //document.getElementById("btnKiemTraThongTin").disabled = true;
 
         vTrangThai_KetQua.ThongTin_TraCuu_BHXH.LanGoi = 0;
         vThongTin_KiemTraThe.Request.Body.maThe = document.getElementById("sobhyt").value;
@@ -321,18 +325,18 @@ window.addEventListener('load', async () => {
                 document.getElementById("thongTinKhiemTraThe").appendChild(thongTinLichSuKiemTraThe);
 
                 debugger;
-                document.getElementById("btnKiemTraThongTin").disabled = false;
+                //document.getElementById("btnKiemTraThongTin").disabled = false;
 
               } else {
                 console.log("Lỗi ngoại lệ trả về: " + data);
-                document.getElementById("btnKiemTraThongTin").disabled = false;
+                //document.getElementById("btnKiemTraThongTin").disabled = false;
               }
               return true;
             })
             .catch(error => {
               debugger;
               console.error(error + "\n Lỗi gọi API lấy token BHXH " + vLienKet_API.laytoken_bhxh);
-              document.getElementById("btnKiemTraThongTin").disabled = false;
+              //document.getElementById("btnKiemTraThongTin").disabled = false;
               return false;
             });
         }
