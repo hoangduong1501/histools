@@ -196,6 +196,7 @@ window.addEventListener('load', async () => {
       //thêm div để hiển thị nội dung thông tin thẻ khi tra cứu
       document.getElementById("thongtin").childNodes[1].innerHTML = '<div id="thongTinKhiemTraThe"></div>' + document.getElementById("formtiepnhan").innerHTML
 
+      //Thêm hành động click cho nút Kiểm tra thẻ BHYT
       document.getElementById("btnKiemTraThongTin").addEventListener("click", async (e) => {
 
         //Làm trống thông tin kiểm tra thẻ trước đó
@@ -302,21 +303,21 @@ window.addEventListener('load', async () => {
                   + '</span>';
                 document.getElementById("thongTinKhiemTraThe").appendChild(thongTinVaoVienGanNhat);
                 
-                var thongTinLichSuKham = document.createElement('a');
+                var thongTinLichSuKham = document.createElement('u');
                 thongTinLichSuKham.style.color = "darkblue";
                 thongTinLichSuKham.style.paddingLeft = "20";
                 thongTinLichSuKham.style.paddingRight = "20";
                 thongTinLichSuKham.style.margin = "10 0 2 0";
-                thongTinLichSuKham.innerText = "Lịch sử khám bệnh ";
+                thongTinLichSuKham.innerText = '<i class="fa fa-history" aria-hidden="true"></i> Xem lịch sử khám bệnh tại đây';
                 
                 document.getElementById("thongTinKhiemTraThe").appendChild(thongTinLichSuKham);
 
-                var thongTinLichSuKiemTraThe = document.createElement('a');
+                var thongTinLichSuKiemTraThe = document.createElement('u');
                 thongTinLichSuKiemTraThe.style.color = "darkblue";
                 thongTinLichSuKiemTraThe.style.paddingLeft = "20";
                 thongTinLichSuKiemTraThe.style.paddingRight = "20";
                 thongTinLichSuKiemTraThe.style.margin = "10 0 2 0";
-                thongTinLichSuKiemTraThe.innerText = "Lịch sử tra cứu thông tin thẻ ";
+                thongTinLichSuKiemTraThe.innerText = '<i class="fa fa-info" aria-hidden="true"></i> Xem lịch sử tra cứu thông tin thẻ tại đây';
                 document.getElementById("thongTinKhiemTraThe").appendChild(thongTinLichSuKiemTraThe);
 
                 debugger;
