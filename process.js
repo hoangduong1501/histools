@@ -190,7 +190,7 @@ window.addEventListener('load', async () => {
       btnKiemTraThongTin.className = "btn btn-sm btn-primary";
       btnKiemTraThongTin.id = "btnKiemTraThongTin";
       btnKiemTraThongTin.type = "button";
-      btnKiemTraThongTin.click = "myFunction";
+      btnKiemTraThongTin.click = () => { debugger; };
       document.getElementById("baohiem5nam_label").parentElement.appendChild(btnKiemTraThongTin);
 
       //thêm div để hiển thị nội dung thông tin thẻ khi tra cứu
@@ -198,150 +198,150 @@ window.addEventListener('load', async () => {
 
       //Thêm hành động click cho nút Kiểm tra thẻ BHYT
       // document.getElementById("btnKiemTraThongTin").addEventListener("click", async (e) => {
-        btnKiemTraThongTin.addEventListener("click", async (e) => {
+      // btnKiemTraThongTin.addEventListener("click", async (e) => {
 
-        if (document.getElementById("sobhyt").value.length === 0 || document.getElementById("hoten").value.length === 0 || document.getElementById("namsinh").value.length === 0) {
-          return;
-        }
+      //   if (document.getElementById("sobhyt").value.length === 0 || document.getElementById("hoten").value.length === 0 || document.getElementById("namsinh").value.length === 0) {
+      //     return;
+      //   }
 
-        //Làm trống thông tin kiểm tra thẻ trước đó
-        while (document.getElementById("thongTinKhiemTraThe").hasChildNodes()) {
-          document.getElementById("thongTinKhiemTraThe").removeChild(document.getElementById("thongTinKhiemTraThe").firstChild);
-        }
+      //   //Làm trống thông tin kiểm tra thẻ trước đó
+      //   while (document.getElementById("thongTinKhiemTraThe").hasChildNodes()) {
+      //     document.getElementById("thongTinKhiemTraThe").removeChild(document.getElementById("thongTinKhiemTraThe").firstChild);
+      //   }
 
-        //document.getElementById("btnKiemTraThongTin").disabled = true;
+      //   //document.getElementById("btnKiemTraThongTin").disabled = true;
 
-        vTrangThai_KetQua.ThongTin_TraCuu_BHXH.LanGoi = 0;
-        vThongTin_KiemTraThe.Request.Body.maThe = document.getElementById("sobhyt").value;
-        vThongTin_KiemTraThe.Request.Body.hoTen = document.getElementById("hoten").value;
-        vThongTin_KiemTraThe.Request.Body.ngaySinh = document.getElementById("namsinh").value;
+      //   vTrangThai_KetQua.ThongTin_TraCuu_BHXH.LanGoi = 0;
+      //   vThongTin_KiemTraThe.Request.Body.maThe = document.getElementById("sobhyt").value;
+      //   vThongTin_KiemTraThe.Request.Body.hoTen = document.getElementById("hoten").value;
+      //   vThongTin_KiemTraThe.Request.Body.ngaySinh = document.getElementById("namsinh").value;
 
-        var vUrlKiemTraBHYT = vLienKet_API.kiemtra_bhyt + "?" + (
-          Object.keys(vThongTin_KiemTraThe.Request.Params)[0] + "=" + vThongTin_KiemTraThe.Request.Params.username + "&" +
-          Object.keys(vThongTin_KiemTraThe.Request.Params)[1] + "=" + vThongTin_KiemTraThe.Request.Params.password + "&" +
-          Object.keys(vThongTin_KiemTraThe.Request.Params)[2] + "=" + vThongTin_KiemTraThe.Request.Params.token + "&" +
-          Object.keys(vThongTin_KiemTraThe.Request.Params)[3] + "=" + vThongTin_KiemTraThe.Request.Params.id_token
-        );
+      //   var vUrlKiemTraBHYT = vLienKet_API.kiemtra_bhyt + "?" + (
+      //     Object.keys(vThongTin_KiemTraThe.Request.Params)[0] + "=" + vThongTin_KiemTraThe.Request.Params.username + "&" +
+      //     Object.keys(vThongTin_KiemTraThe.Request.Params)[1] + "=" + vThongTin_KiemTraThe.Request.Params.password + "&" +
+      //     Object.keys(vThongTin_KiemTraThe.Request.Params)[2] + "=" + vThongTin_KiemTraThe.Request.Params.token + "&" +
+      //     Object.keys(vThongTin_KiemTraThe.Request.Params)[3] + "=" + vThongTin_KiemTraThe.Request.Params.id_token
+      //   );
 
-        while (vTrangThai_KetQua.ThongTin_TraCuu_BHXH.LanGoi < 3) {
-          vTrangThai_KetQua.ThongTin_TraCuu_BHXH.TrangThai = await fetch(vUrlKiemTraBHYT, {
-            method: "POST",
-            body: FormBody(vThongTin_KiemTraThe.Request.Body),
-            headers: {
-              'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-            }
-          })
-            .then(response => {
-              if (response.ok) {
-                vTrangThai_KetQua.ThongTin_TraCuu_BHXH.LanGoi = 3;
-                return response.json();
-              } else {
-                vTrangThai_KetQua.ThongTin_TraCuu_BHXH.LanGoi++;
-                throw new Error('API request failed');
-              }
-            })
-            .then(async (data) => {
-              if (data.maKetQua === "401") {
-                vTrangThai_KetQua.ThongTin_TraCuu_BHXH.LayToken.LanGoi = 0;
-                //#region Lấy lại token khi hết hạn hoặc sai thông tin
-                while (vTrangThai_KetQua.ThongTin_TraCuu_BHXH.LayToken.LanGoi < 3) {
-                  vTrangThai_KetQua.ThongTin_TraCuu_BHXH.LayToken.TrangThai = await fetch(vLienKet_API.laytoken_bhxh, {
-                    method: "POST",
-                    body: FormBody(vThongTin_LayToken.Request.Body),
-                    headers: {
-                      'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-                    }
-                  })
-                    .then(response => {
-                      if (response.ok) {
-                        vTrangThai_KetQua.ThongTin_TraCuu_BHXH.LayToken.LanGoi = 3;
-                        return response.json();
-                      } else {
-                        vTrangThai_KetQua.ThongTin_TraCuu_BHXH.LayToken.LanGoi++;
-                        throw new Error('API request failed');
-                      }
-                    })
-                    .then(data => {
-                      vThongTin_LayToken.Response = data;
-                      vThongTin_KiemTraThe.Request.Params.id_token = data.APIKey.id_token;
-                      vThongTin_KiemTraThe.Request.Params.token = data.APIKey.access_token;
-                      return true;
-                    })
-                    .catch(error => {
-                      console.error(error + "\n Lỗi gọi API lấy lại token BHXH " + vLienKet_API.laytoken_bhxh);
-                      return false;
-                    });
-                }
-                //#endregion
+      //   while (vTrangThai_KetQua.ThongTin_TraCuu_BHXH.LanGoi < 3) {
+      //     vTrangThai_KetQua.ThongTin_TraCuu_BHXH.TrangThai = await fetch(vUrlKiemTraBHYT, {
+      //       method: "POST",
+      //       body: FormBody(vThongTin_KiemTraThe.Request.Body),
+      //       headers: {
+      //         'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+      //       }
+      //     })
+      //       .then(response => {
+      //         if (response.ok) {
+      //           vTrangThai_KetQua.ThongTin_TraCuu_BHXH.LanGoi = 3;
+      //           return response.json();
+      //         } else {
+      //           vTrangThai_KetQua.ThongTin_TraCuu_BHXH.LanGoi++;
+      //           throw new Error('API request failed');
+      //         }
+      //       })
+      //       .then(async (data) => {
+      //         if (data.maKetQua === "401") {
+      //           vTrangThai_KetQua.ThongTin_TraCuu_BHXH.LayToken.LanGoi = 0;
+      //           //#region Lấy lại token khi hết hạn hoặc sai thông tin
+      //           while (vTrangThai_KetQua.ThongTin_TraCuu_BHXH.LayToken.LanGoi < 3) {
+      //             vTrangThai_KetQua.ThongTin_TraCuu_BHXH.LayToken.TrangThai = await fetch(vLienKet_API.laytoken_bhxh, {
+      //               method: "POST",
+      //               body: FormBody(vThongTin_LayToken.Request.Body),
+      //               headers: {
+      //                 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+      //               }
+      //             })
+      //               .then(response => {
+      //                 if (response.ok) {
+      //                   vTrangThai_KetQua.ThongTin_TraCuu_BHXH.LayToken.LanGoi = 3;
+      //                   return response.json();
+      //                 } else {
+      //                   vTrangThai_KetQua.ThongTin_TraCuu_BHXH.LayToken.LanGoi++;
+      //                   throw new Error('API request failed');
+      //                 }
+      //               })
+      //               .then(data => {
+      //                 vThongTin_LayToken.Response = data;
+      //                 vThongTin_KiemTraThe.Request.Params.id_token = data.APIKey.id_token;
+      //                 vThongTin_KiemTraThe.Request.Params.token = data.APIKey.access_token;
+      //                 return true;
+      //               })
+      //               .catch(error => {
+      //                 console.error(error + "\n Lỗi gọi API lấy lại token BHXH " + vLienKet_API.laytoken_bhxh);
+      //                 return false;
+      //               });
+      //           }
+      //           //#endregion
 
-                //Kiểm tra trạng thái lấy lại token
-                if (vTrangThai_KetQua.ThongTin_LayToken_BHXH.LayToken.TrangThai) {
-                  vTrangThai_KetQua.ThongTin_TraCuu_BHXH.LanGoi = 0; // Đặt lại giá trị để kiểm tra lại thông tin tiếp tục thực hiện gọi kiểm tra dữ liệu
-                } else {
-                  //Thông báo lỗi và dừng quá trình kiểm tra
-                  jAlert("Lỗi xác thực giám định!", 'Thông báo');
-                  vTrangThai_KetQua.ThongTin_TraCuu_BHXH.LanGoi = 3;
-                  return false;
-                }
-              }
-              else if (data.maKetQua === "000") {
-                //Thực hiện các thao tác hiển thị thông tin lấy từ cổng giám định              
-                var thongTinDinhDanhBHYT = document.createElement('h4');
-                thongTinDinhDanhBHYT.style.color = "darkblue";
-                thongTinDinhDanhBHYT.style.paddingLeft = "20";
-                thongTinDinhDanhBHYT.style.paddingRight = "20";
-                thongTinDinhDanhBHYT.style.margin = "10 0 2 0";
-                thongTinDinhDanhBHYT.innerHTML = data.ghiChu;
-                document.getElementById("thongTinKhiemTraThe").appendChild(thongTinDinhDanhBHYT);
+      //           //Kiểm tra trạng thái lấy lại token
+      //           if (vTrangThai_KetQua.ThongTin_LayToken_BHXH.LayToken.TrangThai) {
+      //             vTrangThai_KetQua.ThongTin_TraCuu_BHXH.LanGoi = 0; // Đặt lại giá trị để kiểm tra lại thông tin tiếp tục thực hiện gọi kiểm tra dữ liệu
+      //           } else {
+      //             //Thông báo lỗi và dừng quá trình kiểm tra
+      //             jAlert("Lỗi xác thực giám định!", 'Thông báo');
+      //             vTrangThai_KetQua.ThongTin_TraCuu_BHXH.LanGoi = 3;
+      //             return false;
+      //           }
+      //         }
+      //         else if (data.maKetQua === "000") {
+      //           //Thực hiện các thao tác hiển thị thông tin lấy từ cổng giám định              
+      //           var thongTinDinhDanhBHYT = document.createElement('h4');
+      //           thongTinDinhDanhBHYT.style.color = "darkblue";
+      //           thongTinDinhDanhBHYT.style.paddingLeft = "20";
+      //           thongTinDinhDanhBHYT.style.paddingRight = "20";
+      //           thongTinDinhDanhBHYT.style.margin = "10 0 2 0";
+      //           thongTinDinhDanhBHYT.innerHTML = data.ghiChu;
+      //           document.getElementById("thongTinKhiemTraThe").appendChild(thongTinDinhDanhBHYT);
 
-                var thongTinVaoVienGanNhat = document.createElement('h4');
-                thongTinVaoVienGanNhat.style.color = "green";
-                thongTinVaoVienGanNhat.style.paddingLeft = "20";
-                thongTinVaoVienGanNhat.style.paddingRight = "20";
-                thongTinVaoVienGanNhat.style.margin = "2 0 2 0";
-                thongTinVaoVienGanNhat.innerHTML = 'Thời gian khám gần nhất vào viện: <span style="color: darkred"> '
-                  + data.dsLichSuKCB2018[0].ngayVao.substring(6, 8) + '/' + data.dsLichSuKCB2018[0].ngayVao.substring(4, 6) + '/' + data.dsLichSuKCB2018[0].ngayVao.substring(0, 4) + ' ' + data.dsLichSuKCB2018[0].ngayVao.substring(8, 10) + ':' + data.dsLichSuKCB2018[0].ngayVao.substring(10, 12)
-                  + '</span> ra viện:  <span style="color: darkred">'
-                  + data.dsLichSuKCB2018[0].ngayRa.substring(6, 8) + '/' + data.dsLichSuKCB2018[0].ngayRa.substring(4, 6) + '/' + data.dsLichSuKCB2018[0].ngayRa.substring(0, 4) + ' ' + data.dsLichSuKCB2018[0].ngayRa.substring(8, 10) + ':' + data.dsLichSuKCB2018[0].ngayRa.substring(10, 12)
-                  + '</span> tại cơ sở :  <span style="color: darkred">'
-                  + data.dsLichSuKCB2018[0].maCSKCB
-                  + '</span>';
-                document.getElementById("thongTinKhiemTraThe").appendChild(thongTinVaoVienGanNhat);
-                
-                var thongTinLichSuKham = document.createElement('a');
-                thongTinLichSuKham.style.color = "darkblue";
-                thongTinLichSuKham.style.paddingLeft = "20";
-                thongTinLichSuKham.style.paddingRight = "20";
-                thongTinLichSuKham.style.margin = "10 0 2 0";
-                thongTinLichSuKham.innerText = '<i class="fa fa-history" aria-hidden="true"></i> <a> Xem lịch sử khám bệnh tại đây</a>';
-                
-                document.getElementById("thongTinKhiemTraThe").appendChild(thongTinLichSuKham);
+      //           var thongTinVaoVienGanNhat = document.createElement('h4');
+      //           thongTinVaoVienGanNhat.style.color = "green";
+      //           thongTinVaoVienGanNhat.style.paddingLeft = "20";
+      //           thongTinVaoVienGanNhat.style.paddingRight = "20";
+      //           thongTinVaoVienGanNhat.style.margin = "2 0 2 0";
+      //           thongTinVaoVienGanNhat.innerHTML = 'Thời gian khám gần nhất vào viện: <span style="color: darkred"> '
+      //             + data.dsLichSuKCB2018[0].ngayVao.substring(6, 8) + '/' + data.dsLichSuKCB2018[0].ngayVao.substring(4, 6) + '/' + data.dsLichSuKCB2018[0].ngayVao.substring(0, 4) + ' ' + data.dsLichSuKCB2018[0].ngayVao.substring(8, 10) + ':' + data.dsLichSuKCB2018[0].ngayVao.substring(10, 12)
+      //             + '</span> ra viện:  <span style="color: darkred">'
+      //             + data.dsLichSuKCB2018[0].ngayRa.substring(6, 8) + '/' + data.dsLichSuKCB2018[0].ngayRa.substring(4, 6) + '/' + data.dsLichSuKCB2018[0].ngayRa.substring(0, 4) + ' ' + data.dsLichSuKCB2018[0].ngayRa.substring(8, 10) + ':' + data.dsLichSuKCB2018[0].ngayRa.substring(10, 12)
+      //             + '</span> tại cơ sở :  <span style="color: darkred">'
+      //             + data.dsLichSuKCB2018[0].maCSKCB
+      //             + '</span>';
+      //           document.getElementById("thongTinKhiemTraThe").appendChild(thongTinVaoVienGanNhat);
 
-                var thongTinLichSuKiemTraThe = document.createElement('a');
-                thongTinLichSuKiemTraThe.style.color = "darkblue";
-                thongTinLichSuKiemTraThe.style.paddingLeft = "20";
-                thongTinLichSuKiemTraThe.style.paddingRight = "20";
-                thongTinLichSuKiemTraThe.style.margin = "10 0 2 0";
-                thongTinLichSuKiemTraThe.innerText = '<i class="fa fa-info" aria-hidden="true"></i> <a> Xem lịch sử tra cứu thông tin thẻ tại đây</a>';
-                document.getElementById("thongTinKhiemTraThe").appendChild(thongTinLichSuKiemTraThe);
+      //           var thongTinLichSuKham = document.createElement('a');
+      //           thongTinLichSuKham.style.color = "darkblue";
+      //           thongTinLichSuKham.style.paddingLeft = "20";
+      //           thongTinLichSuKham.style.paddingRight = "20";
+      //           thongTinLichSuKham.style.margin = "10 0 2 0";
+      //           thongTinLichSuKham.innerText = '<i class="fa fa-history" aria-hidden="true"></i> <a> Xem lịch sử khám bệnh tại đây</a>';
 
-                debugger;
-                //document.getElementById("btnKiemTraThongTin").disabled = false;
+      //           document.getElementById("thongTinKhiemTraThe").appendChild(thongTinLichSuKham);
 
-              } else {
-                console.log("Lỗi ngoại lệ trả về: " + data);
-                //document.getElementById("btnKiemTraThongTin").disabled = false;
-              }
-              return true;
-            })
-            .catch(error => {
-              debugger;
-              console.error(error + "\n Lỗi gọi API lấy token BHXH " + vLienKet_API.laytoken_bhxh);
-              //document.getElementById("btnKiemTraThongTin").disabled = false;
-              return false;
-            });
-        }
-      });
+      //           var thongTinLichSuKiemTraThe = document.createElement('a');
+      //           thongTinLichSuKiemTraThe.style.color = "darkblue";
+      //           thongTinLichSuKiemTraThe.style.paddingLeft = "20";
+      //           thongTinLichSuKiemTraThe.style.paddingRight = "20";
+      //           thongTinLichSuKiemTraThe.style.margin = "10 0 2 0";
+      //           thongTinLichSuKiemTraThe.innerText = '<i class="fa fa-info" aria-hidden="true"></i> <a> Xem lịch sử tra cứu thông tin thẻ tại đây</a>';
+      //           document.getElementById("thongTinKhiemTraThe").appendChild(thongTinLichSuKiemTraThe);
+
+      //           debugger;
+      //           //document.getElementById("btnKiemTraThongTin").disabled = false;
+
+      //         } else {
+      //           console.log("Lỗi ngoại lệ trả về: " + data);
+      //           //document.getElementById("btnKiemTraThongTin").disabled = false;
+      //         }
+      //         return true;
+      //       })
+      //       .catch(error => {
+      //         debugger;
+      //         console.error(error + "\n Lỗi gọi API lấy token BHXH " + vLienKet_API.laytoken_bhxh);
+      //         //document.getElementById("btnKiemTraThongTin").disabled = false;
+      //         return false;
+      //       });
+      //   }
+      // });
     }
 
     //#region Nháp
