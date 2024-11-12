@@ -190,6 +190,7 @@ window.addEventListener('load', async () => {
       btnKiemTraThongTin.className = "btn btn-sm btn-primary";
       btnKiemTraThongTin.id = "btnKiemTraThongTin";
       btnKiemTraThongTin.type = "button";
+      btnKiemTraThongTin.click = "myFunction";
       document.getElementById("baohiem5nam_label").parentElement.appendChild(btnKiemTraThongTin);
 
       //thêm div để hiển thị nội dung thông tin thẻ khi tra cứu
@@ -197,7 +198,7 @@ window.addEventListener('load', async () => {
 
       //Thêm hành động click cho nút Kiểm tra thẻ BHYT
       // document.getElementById("btnKiemTraThongTin").addEventListener("click", async (e) => {
-      btnKiemTraThongTin.addEventListener("click", async (e) => {
+        btnKiemTraThongTin.addEventListener("click", async (e) => {
 
         if (document.getElementById("sobhyt").value.length === 0 || document.getElementById("hoten").value.length === 0 || document.getElementById("namsinh").value.length === 0) {
           return;
@@ -306,14 +307,14 @@ window.addEventListener('load', async () => {
                   + data.dsLichSuKCB2018[0].maCSKCB
                   + '</span>';
                 document.getElementById("thongTinKhiemTraThe").appendChild(thongTinVaoVienGanNhat);
-
+                
                 var thongTinLichSuKham = document.createElement('a');
                 thongTinLichSuKham.style.color = "darkblue";
                 thongTinLichSuKham.style.paddingLeft = "20";
                 thongTinLichSuKham.style.paddingRight = "20";
                 thongTinLichSuKham.style.margin = "10 0 2 0";
                 thongTinLichSuKham.innerText = '<i class="fa fa-history" aria-hidden="true"></i> <a> Xem lịch sử khám bệnh tại đây</a>';
-
+                
                 document.getElementById("thongTinKhiemTraThe").appendChild(thongTinLichSuKham);
 
                 var thongTinLichSuKiemTraThe = document.createElement('a');
