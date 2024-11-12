@@ -197,7 +197,8 @@ window.addEventListener('load', async () => {
       document.getElementById("thongtin").childNodes[1].innerHTML = '<div id="thongTinKhiemTraThe"></div>' + document.getElementById("formtiepnhan").innerHTML
 
       //Thêm hành động click cho nút Kiểm tra thẻ BHYT
-      document.getElementById("btnKiemTraThongTin").addEventListener("click", async (e) => {
+      // document.getElementById("btnKiemTraThongTin").addEventListener("click", async (e) => {
+        btnKiemTraThongTin.addEventListener("click", async (e) => {
 
         if (document.getElementById("sobhyt").value.length === 0 || document.getElementById("hoten").value.length === 0 || document.getElementById("namsinh").value.length === 0) {
           return;
@@ -341,7 +342,6 @@ window.addEventListener('load', async () => {
             });
         }
       });
-
     }
 
     //#region Nháp
